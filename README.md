@@ -1,3 +1,1 @@
-# GRASS GIS Workshop in Jena 02/2020
-
-http://training.gismentors.eu/grass-gis-workshop-jena
+# GRASS GIS Workshop in Wageningen 09/2021
