@@ -1,5 +1,5 @@
-Unit 02 - First steps
-=====================
+First steps
+===========
 
 
 Starting a GRASS session requires basic knowledge about software

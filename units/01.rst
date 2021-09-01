@@ -1,5 +1,5 @@
-Unit 01 - About GRASS GIS
-=========================
+About GRASS GIS
+===============
 
 **GRASS GIS**, commonly referred as GRASS (Geographic Resources
 Analysis Support System), is a free and open source Geographic
@@ -9,7 +9,7 @@ production, spatial modeling, and visualization. GRASS GIS is
 currently used in academic and commercial settings around the world,
 as well as by many governmental agencies and environmental consulting
 companies. It is a founding member of the Open Source Geospatial
-Foundation (OSGeo).
+Foundation (`OSGeo <http://www.osgeo.org>`__).
 
 Originally developed by the U.S. Army Construction Engineering
 Research Laboratories (USA-CERL, 1982-1995, see history of GRASS
@@ -55,13 +55,14 @@ In a nutshell
 * working with large amount of data
 * analysing spatio-temporal data
 * doing Python scripting
-* deploying server-side applications (e.g. as WPS processes)
+* deploying server-side applications (see `actinia
+  <https://www.osgeo.org/projects/actinia/>`__ project \for example)
 * *add your point here...*
   
 **When to use rather something else?**
 
 * want to vizualize geodata in easy and quick way (use QGIS instead)
-* want quick access to vector data (simple features)
+* want to access simple features
 * being scared of location and mapsets ;-)
 * *add your point here...*
 
