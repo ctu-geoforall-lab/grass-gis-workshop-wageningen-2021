@@ -3,24 +3,10 @@ First steps
 
 
 Starting a GRASS session requires basic knowledge about software
-itself. GRASS motivates to organize user's data from early beginning.
-
-In GRASS 7 before entering a session a startup screen (:numref:`startup7`)
-appeared, the user had to define working environment in which GRASS
-session has been started. This step has been required to enter
-GRASS. Such approach is not so common. Applications like Esri ArcGIS
-or QGIS just starts. The user loads different data from various data
-sources in different projections, and starts working on his/her
-project.
-
-.. _startup7:
-   
-.. figure:: ../images/units/02/startup-0.svg
-
-   GRASS GIS startup screen in version 7.
-
-GRASS is using consistently structure of so-called **locations** and
-**mapsets** to organize its data. This hasn't been changed in GRASS 8.
+itself. GRASS motivates to organize user's data from early
+beginning. GRASS is using consistently structure of so-called
+**locations** and **mapsets** to organize its data. This hasn't been
+changed in GRASS 8.
 
 .. _location-mapset-section:
 
@@ -38,6 +24,21 @@ GRASS data structure has three levels:
    organizing data into logical groups or to separate parallel work of
    more users on the same project.
 
+.. note:: In GRASS 7 before entering a session a startup screen
+   (:numref:`startup7`) appeared, the user had to define working
+   environment in which GRASS session has been started. This step has
+   been required to enter GRASS. Such approach is not so
+   common. Applications like Esri ArcGIS or QGIS just starts. The user
+   loads different data from various data sources in different
+   projections, and starts working on his/her project.
+
+   .. _startup7:
+   
+   .. figure:: ../images/units/02/startup-0.png
+
+      GRASS GIS startup screen in version 7.
+
+   
 Obstacles (especially for newcomers) related to the startup screen has
 been reduced in presented version GRASS 8. The startup screen has been
 replaced by a completely new mechanism. GRASS 8 on the first launch
