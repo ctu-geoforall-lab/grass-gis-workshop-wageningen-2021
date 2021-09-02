@@ -3,21 +3,34 @@ First steps
 
 
 Starting a GRASS session requires basic knowledge about software
-itself. It is an obstacle especially for newcomers. In other words
-GRASS forces organizing your data from early beginning.
+itself. In other words GRASS forces organizing your data from early
+beginning.
 
-Before entering GRASS a startup screen appears, the user must define
-working project in which GRASS session will operate. Without this step
-you cannot enter GRASS. Such approach is not so common. Applications
-like Esri ArcGIS or QGIS just starts. The user loads different data
-from various data sources in different projections, and starts working
-on his/her project. GRASS is different, which makes this software
-harder to enter for newcomers. *But don't worry, we will enter our
-first GRASS sessions in few steps.*
+In GRASS 7 before entering the software a startup screen
+:numref:`startup0` appeared, the user had to define working
+environment in which GRASS session has been started. This step has
+been required to enter GRASS. Such approach is not so
+common. Applications like Esri ArcGIS or QGIS just starts. The user
+loads different data from various data sources in different
+projections, and starts working on his/her project.
+
+.. _startup0:
+   
+.. figure:: ../images/units/02/startup-0.svg
+
+   GRASS GIS startup screen.
+
+Obstacles (especially for newcomers) related to the startup screen has
+been reduced in presented version GRASS 8. The startup screen has been
+replaced by completely new mechanism which is explained below.
+
+Important is that GRASS is using consistently structure of so-called
+locations and mapsets to organize its data. This hasn't been changed
+in GRASS 8.
 
 .. _location-mapset-section:
 
-The GRASS GIS startup screen requires to set up three items:
+GRASS data structure has three levels:
 
 #. **Database directory.** A directory on local or network disc which
    contains all data accessed by GRASS. It's usually directory called
@@ -32,12 +45,6 @@ The GRASS GIS startup screen requires to set up three items:
 #. **Mapset** Contains task-related data within one project. Helps
    organizing data into logical groups or to separate parallel work of
    more users on the same project.
-
-.. _startup0:
-   
-.. figure:: ../images/units/02/startup-0.svg
-
-   GRASS GIS startup screen.
 
 At first define database directory (:fignote:`1.`) if not already set
 up. Then a new location can be created (:fignote:`2a.`) or official
