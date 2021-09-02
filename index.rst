@@ -27,11 +27,21 @@ created based on Open Data covering ODSE pilot tiles.
 Content
 =======
 
+GRASS GIS 8 (Part 1): Introduction and new features
+---------------------------------------------------
+
 .. toctree::
    :maxdepth: 2
 
    units/01
    units/02
+   units/03
+   units/04
+   units/05
+
+GRASS GIS 8 (Part 2): Processing multitemporal EO data
+------------------------------------------------------
+
    ..
       units/03
       units/04

@@ -1,26 +1,84 @@
-Unit 03 - Data Management
-=========================
+Data Management
+===============
 
-Data can be imported simply from toolbar by tools dedicated for
-:wikipedia:`raster <GIS_file_formats#Raster>` or :wikipedia:`vector
-<GIS_file_formats#Vector>` GIS data formats |grass-layer-import|. Basic
-knowledge of commonly used :wikipedia:`GIS file formats` is required.
+Data can be imported simply from toolbar in :item:`Data` tab by tools
+dedicated for :wikipedia:`raster <GIS_file_formats#Raster>`
+|grass-raster-import| or :wikipedia:`vector <GIS_file_formats#Vector>`
+|grass-vector-import| GIS data formats. Basic knowledge of commonly
+used :wikipedia:`GIS file formats` is required.
 
 .. note:: GRASS terminology differs from commonly used GIS
-          packages. To avoid confusion let's focus on the most
-          important terms. Commonly used term "a layer" is called in
-          GRASS "a map". While GRASS layer is a subset of features within
-          one "map". So "GRASS raster map" can be treated as "a raster
-          layer" in other GIS packages.
+   packages. To avoid confusion let's focus on the most
+   important terms. Commonly used term "a layer" is called in
+   GRASS "a map". While GRASS layer is a subset of features within
+   one "map". So "GRASS raster map" can be treated as "a raster
+   layer" in other GIS packages.
 
-Data import
+Vector data
 -----------
 
-Data used in this unit is located in :file:`geodata/sentinel/sample`
-directory of a sample dataset.
+Let's import sample ODSE tiles (:file:`odse_tiles.gpkg`) vector data
+from the toolbar |grass-vector-import| :sup:`Import vector data
+[v.import]`.
+
+.. figure:: ../images/units/02/odse_tiles_import.png
+
+   Select input vector file to be imported.
+   
+.. figure:: ../images/units/02/odse_tiles.png
+   :class: large
+           
+   Imported vector data are automatically displayed in *Map Display*
+   window. Progress of import is shown in :item:`Console` tab.
+
+Let's copy into the current location a world map from default location
+for better feeling.
+
+.. figure:: ../images/units/02/copy-0.png
+               
+   Expand *world_latlong_wgs84* location and select
+   *country_boundaries* vector map.
+
+.. figure:: ../images/units/02/copy-1.png
+
+   Select the currect location and mapset and paste already selected
+   data.
+
+.. figure:: ../images/units/02/copy-2.png
+
+   Coordinate reference system of source (:epsg:`4326`) and target
+   (:epsg:`3035`) location is different. GRASS will re-project
+   data. Let's keep default value for maximum segment length (10km).
+
+To display copied vector data go to :item:`Data` tab, choose
+layer to be displayed and from contextual menu choose
+:item:`Display layer` (or use double-click on layer).
+   
+.. figure:: ../images/units/02/display-layer.png
+
+   Display layer from Data tab.
+   
+After displaying data go to :item:`Display` tab and re-order
+layers. From contextual menu choose :item:`Properties` (or use
+double-click on layer).
+
+.. figure:: ../images/units/02/display-properties.png
+
+   Open layer properties dialog.
+
+.. figure:: ../images/units/02/d-vect-fill-color.png
+
+   Select fill color.
+
+.. figure:: ../images/units/02/odse_tiles_countries.png
+   :class: large
+
+   Final map composition.
 
 Raster data
-^^^^^^^^^^^
+-----------
+
+.. todo:: Update to DEM
 
 Let's start with :file:`L2A_T32UPB_20170706T102021_B04_10m.jp2`
 file. Sentinel's 4th band is a :wikipedia:`JPEG2000` file, which is
@@ -98,59 +156,14 @@ types are supported:
 * CELL (integer)
 * FCELL (float)
 * DCELL (double)
-            
-Vector data
-^^^^^^^^^^^
 
-Let's import *vector* cloud mask data layer located in
-:file:`geodata/sentinel/sample` directory. Cloud mask is stored in
-:file:`MSK_CLOUDS_B00.gml` :wikipedia:`GML` file, which is a commonly
-used GIS exchange *vector* format.
-
-.. figure:: ../images/units/03/import-vector-toolbar.png
-
-   Import vector data from the main toolbar.
-
-.. note:: Dialog for importing vector data is also accessible from
-   menu :menuselection:`File --> Import vector data --> Simplified
-   vector import with reprojection` or from command line by
-   :grasscmd:`v.import` module.
-   
-.. figure:: ../images/units/03/import-vector-dialog.png
-
-   Dialog for importing vector file(s).
-
-..   
-   .. note:: In some cases SRS of imported file can be missing or
-          invalid. This is our case. GRASS reports this issue as *In
-          case of no significant differences in the projection
-          definitions, use the -o flag to ignore them and use current
-          location definition.  Consider generating a new location
-          from the input dataset using the 'location' parameter.*
-
-          GRASS allows importing such file by overriding project check
-          (if you are really sure that SRS of input file is the same
-          as GRASS location).
-
-          .. figure:: ../images/units/03/override-projection-check.svg
-
-             Override projection check to force import.
-
-After successful operation imported data layer should be automatically
-displayed in map window.
-   
-.. figure:: ../images/units/03/display-band4-clouds.png
-   :class: large
-   
-   Map composition of Sentinel band and cloud mask features.
-
-Vector metadata can be printed similarly to raster maps from Layer Manager
-by :item:`Metadata` or using :grasscmd:`v.info` module from console.
+Notes
+-----
 
 .. _vector-topo-section:
 
 Vector topology
----------------
+~~~~~~~~~~~~~~~
 
 Let's take a closer look at vector metadata of imported administrative
 regions. Instead of "polygons" there are "areas" and other kind of
@@ -182,7 +195,7 @@ repair automatically without user specification can fixed using
 .. _link-external:
 
 Linking external formats
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 To avoid data duplication GRASS also allows linking raster data using
 :grasscmd:`r.external` (*Link external raster data*) and vector data
