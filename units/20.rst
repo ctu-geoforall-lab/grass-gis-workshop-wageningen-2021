@@ -1,5 +1,5 @@
-Unit 20 - Sentinel downloader
-=============================
+[Part 2] Accessing Sentinel EO data
+===================================
 
 There are plenty of libraries or tools which allows downloading
 Sentinel products from `Copernicus Open Access Hub

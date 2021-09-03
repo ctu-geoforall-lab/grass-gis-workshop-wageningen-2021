@@ -29,7 +29,7 @@ Content
 
 GRASS GIS 8 (Part 1): Introduction and new features
 ---------------------------------------------------
-
+              
 .. toctree::
    :maxdepth: 2
 
@@ -41,6 +41,13 @@ GRASS GIS 8 (Part 1): Introduction and new features
 
 GRASS GIS 8 (Part 2): Processing multitemporal EO data
 ------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   units/20
+   units/21
+   units/22
 
    ..
       units/03
@@ -60,9 +67,6 @@ GRASS GIS 8 (Part 2): Processing multitemporal EO data
       units/17
       units/18
       units/19
-      units/20
-      units/21
-      units/22
       units/23
       units/24
       units/25

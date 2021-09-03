@@ -1,5 +1,5 @@
-About GRASS GIS
-===============
+[Part 1] About GRASS GIS
+========================
 
 **GRASS GIS**, commonly referred to as GRASS (Geographic Resources
 Analysis Support System), is a free and open-source Geographic

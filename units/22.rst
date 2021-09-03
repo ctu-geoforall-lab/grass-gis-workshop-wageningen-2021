@@ -1,5 +1,5 @@
-Unit 22 - Spatio-temporal scripting
-===================================
+[Part 2] Temporal Framework Python API
+======================================
 
 There is another GRASS Python library to be introduced -
 :grasscmd2:`GRASS GIS Temporal Framework

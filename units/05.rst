@@ -1,5 +1,5 @@
-Unit 05 - Simple computation
-============================
+[Part 1] Raster processing
+==========================
 
 Computation of :wikipedia:`NDVI` is a well known "discipline" in
 remote sensing. It is a simple task which requires basic knowledge of
