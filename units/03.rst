@@ -21,11 +21,11 @@ Let's import sample ODSE tiles (:file:`odse_tiles.gpkg`) vector data
 from the toolbar |grass-vector-import| :sup:`Import vector data
 [v.import]`.
 
-.. figure:: ../images/units/02/odse_tiles_import.png
+.. figure:: ../images/units/03/odse_tiles_import.png
 
    Select input vector file to be imported.
    
-.. figure:: ../images/units/02/odse_tiles.png
+.. figure:: ../images/units/03/odse_tiles.png
    :class: large
            
    Imported vector data is automatically displayed in *Map Display*
@@ -34,17 +34,17 @@ from the toolbar |grass-vector-import| :sup:`Import vector data
 Let's copy into the current location a world map from default location
 for better feeling.
 
-.. figure:: ../images/units/02/copy-0.png
+.. figure:: ../images/units/03/copy-0.png
                
    Expand *world_latlong_wgs84* location and select
    *country_boundaries* vector map.
 
-.. figure:: ../images/units/02/copy-1.png
+.. figure:: ../images/units/03/copy-1.png
 
    Select the currect location and mapset and paste already selected
    data.
 
-.. figure:: ../images/units/02/copy-2.png
+.. figure:: ../images/units/03/copy-2.png
 
    Coordinate reference system of source (:epsg:`4326`) and target
    (:epsg:`3035`) location is different. GRASS will re-project
@@ -54,7 +54,7 @@ To display copied vector data go to :item:`Data` tab, choose
 layer to be displayed and from contextual menu choose
 :item:`Display layer` (or use double-click on layer).
    
-.. figure:: ../images/units/02/display-layer.png
+.. figure:: ../images/units/03/display-layer.png
 
    Display layer from Data tab.
    
@@ -62,15 +62,15 @@ After displaying data go to :item:`Display` tab and re-order
 layers. From contextual menu choose :item:`Properties` (or use
 double-click on layer).
 
-.. figure:: ../images/units/02/display-properties.png
+.. figure:: ../images/units/03/display-properties.png
 
    Open layer properties dialog.
 
-.. figure:: ../images/units/02/d-vect-fill-color.png
+.. figure:: ../images/units/03/d-vect-fill-color.png
 
    Select fill color.
 
-.. figure:: ../images/units/02/odse_tiles_countries.png
+.. figure:: ../images/units/03/odse_tiles_countries.png
    :class: large
 
    Final map composition.
@@ -78,15 +78,15 @@ double-click on layer).
 Raster data
 -----------
 
-Let's import sample ODSE tiles (:file:`dtm_14580.tif`) vector data
+Let's import sample ODSE tiles (:file:`dtm_5606.tif`) vector data
 from the toolbar |grass-raster-import| :sup:`Import raster data
 [r.import]`.
 
-.. figure:: ../images/units/02/dtm_import.png
+.. figure:: ../images/units/03/dtm_import.png
 
    Select input raster file to be imported.
    
-.. figure:: ../images/units/02/dtm.png
+.. figure:: ../images/units/03/dtm.png
    :class: large
            
    Imported raster data is automatically displayed in *Map Display*

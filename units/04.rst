@@ -1,5 +1,5 @@
-Unit 04 - Modules, Region
-=========================
+Modules, Region
+===============
 
 .. _grass-modules:
 
@@ -7,51 +7,50 @@ Accessing GRASS modules
 -----------------------
 
 GRASS GIS is a **modular system** which consists of several hundreds
-tools (called "modules"). Modules are accessible from the Layer
+*tools* (called "modules"). Modules are accessible from the Layer
 Manager menu, :item:`Modules` tab, or from command prompt
 (:item:`Console` tab).
 
-Let's find a tool for clipping cloud mask vector map by Jena city
-region.
+Let's find a tool which create 1km *buffer* around selected tile.
 
-.. figure:: ../images/units/04/modules-tab.svg
+.. figure:: ../images/units/04/modules-tab.png
 
-   Searching module in Layer Manager by 'clip' keyword. The module
-   which we are looking for is :grasscmd:`v.clip`. Module dialog can
+   Searching module in Layer Manager by 'buffer' keyword. The module
+   which we are looking for is :grasscmd:`v.buffer`. Module dialog can
    be open by :item:`Run` button.
-
-.. note:: Module :grasscmd:`v.clip` has been introduce to GRASS in
-   version 7.4.0. In older versions more generic :grasscmd:`v.overlay`
-   module can be used.
    
-.. figure:: ../images/units/04/modules-cmd.png
+.. note::
 
-   Launching :grasscmd:`v.clip` module from Layer Manager console.
+   .. figure:: ../images/units/04/modules-cmd.png
 
-The commands (modules) can be called using GUI dialogs, from command
-line (:item:`Console` or "real" terminal), or by using Python API (see
-:doc:`10`). Figure bellow shows GUI dialog of :grasscmd:`v.clip`
-module.
+      Launching :grasscmd:`v.clip` module from Layer Manager console.
 
-.. _v-clip:
+..
+   The commands (modules) can be called using GUI dialogs, from command
+   line (:item:`Console` or "real" terminal), or by using Python API (see
+   :doc:`10`). Figure bellow shows GUI dialog of :grasscmd:`v.clip`
+   module.
 
-.. figure:: ../images/units/04/v-clip.svg
+.. _v-buffer:
 
-   GUI dialog for launching :grasscmd:`v.clip` module.
+.. figure:: ../images/units/04/v-buffer.png
+   :class: middle
+                    
+   GUI dialog for launching :grasscmd:`v.buffer` module.
 
 .. tip:: CLI syntax of modules is shown in GUI dialog statusbar, see
-   :numref:`v-clip`. Command can be copied to clipboard by
+   :numref:`v-buffer`. Command can be copied to clipboard by
    :item:`Copy` button for later usage.
 
 The corresponding command for console would be:
 
 .. code-block:: bash
 
-   v.clip input=MaskFeature clip=jena_boundary output=jena_clouds
+   v.buffer input=odse_tiles layer=1 where="tile_id = 5606" output=tile_5606_1km distance=1000
 
-.. figure:: ../images/units/04/jena-clouds.png
+.. figure:: ../images/units/04/tile_1km.png
 
-   Clipped clouds mask by Jena city region.
+   Buffer of 1km around selected tile.
 
 Each GRASS command starts by a prefix. This prefix groups modules into
 several sections, see table below.
