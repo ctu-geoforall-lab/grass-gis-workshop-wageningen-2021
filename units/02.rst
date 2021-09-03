@@ -2,35 +2,35 @@ First steps
 ===========
 
 
-Starting a GRASS session requires basic knowledge about software
-itself. GRASS motivates to organize user's data from early
+Starting a GRASS session requires basic knowledge about the software
+itself. GRASS motivates to organize user's data from an early
 beginning. GRASS is using consistently structure of so-called
 **locations** and **mapsets** to organize its data. This hasn't been
 changed in GRASS 8.
 
 .. _location-mapset-section:
 
-GRASS data structure has three levels:
+The GRASS data structure has three levels:
 
 #. **Database directory.** A directory on local or network disc which
-   contains all data accessed by GRASS. It's usually directory called
+   contains all data accessed by GRASS. It's usually a directory called
    :file:`grassdata` located in a user's home directory. 
 
 #. **Location**. All geodata stored within one location must have the
    same spatial coordinate system (GRASS doesn't support on-the-fly
-   projection from several reasons).
+   projection for several reasons).
 
 #. **Mapset** Contains task-related data within one project. Helps
    organizing data into logical groups or to separate parallel work of
    more users on the same project.
 
 .. note:: In GRASS 7 before entering a session a startup screen
-   (:numref:`startup7`) appeared, the user had to define working
-   environment in which GRASS session has been started. This step has
-   been required to enter GRASS. Such approach is not so
+   (:numref:`startup7`) appeared, the user had to define the working
+   environment in which the GRASS session has been started. This step has
+   been required to enter GRASS. Such an approach is not so
    common. Applications like Esri ArcGIS or QGIS just starts. The user
    loads different data from various data sources in different
-   projections, and starts working on his/her project.
+   projections and starts working on his/her project.
 
    .. _startup7:
    
@@ -40,14 +40,14 @@ GRASS data structure has three levels:
 
    
 Obstacles (especially for newcomers) related to the startup screen has
-been reduced in presented version GRASS 8. The startup screen has been
+been reduced in the presented version GRASS 8. The startup screen has been
 replaced by a completely new mechanism. GRASS 8 on the first launch
 sets up *database directory* automatically and launches GUI in a
 default location *World LatLong WGS84*. Also a sample *world* vector
 layer (in GRASS terminology *vector map*) is shown.
 
 GRASS GUI is designed as a *simple and lightweight* graphical user
-interface. Basically it is a GUI front-end calling GRASS commands (see
+interface. Basically, it is a GUI front-end calling GRASS commands (see
 :ref:`grass-modules`) in the background. The GUI consists of two main
 windows, see :numref:`startup8`.
 
@@ -59,31 +59,31 @@ windows, see :numref:`startup8`.
    GRASS GIS 8 on startup.
 
 .. tip:: If GUI crashes, it can be started again by :grasscmd:`g.gui`
-   command from underlaying terminal (command prompt).
+   command from the underlying terminal (command prompt).
          
 GRASS GUI navigates a user by tooltips as shown in
-:numref:`startup8`. Default location is not designed for a real
+:numref:`startup8`. The default location is not designed for a real
 work. The next step is usually to create own "project" (in GRASS
-terminology *a location*) by user-defined spatial coordinate system.
+terminology *a location*) by a user-defined spatial coordinate system.
 
 .. _create-location:
 
 Create a new location
 ---------------------
 
-By clicking on :item:`Create new Location` button in tooltip (or by
+By clicking on :item:`Create new Location` button in the tooltip (or by
 |grass-location-add| from the toolbar) the wizard appears. A new GRASS
 location can be easily created by :wikipedia:`EPSG` code or
 user-defined geodata.
 
 In the first page of a wizard, a location name is defined, optionally
 also short description can be added.
-          
+
 .. figure:: ../images/units/02/create-location-0.png
 
-   Define a name for new GRASS location. 
+   Define a name for the new GRASS location. 
 
-In the next page a coordinate reference system (CRS) is chosen. CRS is
+In the next page, a coordinate reference system (CRS) is chosen. CRS is
 usually defined by EPSG code (:item:`Select CRS from a list by EPSG or
 description`) or by user-defined geodata (:item:`Read CRS from a
 georeferenced data file`). 
@@ -92,7 +92,7 @@ georeferenced data file`).
 
    Choose CRS for creating a new GRASS location.
 
-In our case a new location will be created by defining :epsg:`3035`.
+In our case, a new location will be created by defining :epsg:`3035`.
 
 .. figure:: ../images/units/02/create-location-2.png
 
@@ -111,7 +111,7 @@ A new GRASS user-defined location will be created by clicking on
    Check the summary.
 
 By default GRASS creates in the new location a *PERMANENT mapset*
-where location settings is stored. This mapset is usually used for
+where location settings are stored. This mapset is usually used for
 importing input geodata used in the location.
 
 .. figure:: ../images/units/02/create-location-5.png

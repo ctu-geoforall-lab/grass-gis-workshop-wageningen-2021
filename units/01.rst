@@ -1,11 +1,11 @@
 About GRASS GIS
 ===============
 
-**GRASS GIS**, commonly referred as GRASS (Geographic Resources
-Analysis Support System), is a free and open source Geographic
+**GRASS GIS**, commonly referred to as GRASS (Geographic Resources
+Analysis Support System), is a free and open-source Geographic
 Information System (GIS) software suite used for geospatial data
 management and analysis, image processing, graphics and maps
-production, spatial modeling, and visualization. GRASS GIS is
+production, spatial modelling, and visualization. GRASS GIS is
 currently used in academic and commercial settings around the world,
 as well as by many governmental agencies and environmental consulting
 companies. It is a founding member of the Open Source Geospatial
@@ -31,9 +31,9 @@ In a nutshell
 
 **Advantages**:
 
-* open source, you can use it freely, modify, improve, share
-* strong user community, commercial support
-* large scale functionality, large amount of tools (2D/3D
+* open-source, you can use it freely, modify, improve, share
+* a strong user community, commercial support
+* large scale functionality, a large amount of tools (2D/3D
   raster/vector, topology, imagery, map production, spatio-temporal
   data, ...)
 * both GUI and CMD (easy for scripting) user interface
@@ -41,9 +41,9 @@ In a nutshell
 
 **Disadvantages** (turning out to be advantages in some cases):
 
-* open source ;-)
+* open-source ;-)
 * complicated for newcomers
-* native data format (requires importing data, be aware of possibility
+* native data format (requires importing data, be aware of the possibility
   of linking external formats)
 * vector topology (confusing for GIS beginners, sometimes tricky to
   import broken GIS data)
@@ -52,7 +52,7 @@ In a nutshell
 
 * doing data analysis
 * working with topological vector data
-* working with large amount of data
+* working with a large amount of data
 * analysing spatio-temporal data
 * doing Python scripting
 * deploying server-side applications (see `actinia
@@ -61,7 +61,7 @@ In a nutshell
   
 **When to use rather something else?**
 
-* want to vizualize geodata in easy and quick way (use QGIS instead)
+* want to visualize geodata in an easy and quick way (use QGIS instead)
 * want to access simple features
 * being scared of location and mapsets ;-)
 * *add your point here...*
@@ -95,7 +95,7 @@ There are basically two options:
 
 Choose 64bit version if you don't care.
 
-.. tip:: GRASS GIS is also part of `QGIS installer on Windows
+.. tip:: GRASS GIS is also part of the `QGIS installer on Windows
    <https://qgis.org/en/site/forusers/download.html>`__. So if QGIS is
    already installed on your machine, you don't have to install GRASS
    GIS separately.
@@ -104,7 +104,7 @@ Useful links
 -------------
 
 * `GRASS GIS homepage <https://grass.osgeo.org>`__
-* `GRASS GIS wiki <https://grasswiki.osgeo.org>`__: a lot information, with examples
+* `GRASS GIS wiki <https://grasswiki.osgeo.org>`__: a lot of information, with examples
   and tutorials
 * `GRASS user mailing list <http://lists.osgeo.org/mailman/listinfo/grass-user>`__:
   the simpler and most used way to ask support
