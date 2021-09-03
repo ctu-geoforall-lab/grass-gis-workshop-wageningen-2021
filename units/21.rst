@@ -1,6 +1,8 @@
 [Part 2] Time series data processing
 ====================================
 
+.. todo:: TO BE UPDATED
+          
 Create a new mapset in *jena-region* location, eg. *sentinel-ndvi*
 (:menuselection:`Settings --> GRASS working enviroment --> Create new
 mapset`).

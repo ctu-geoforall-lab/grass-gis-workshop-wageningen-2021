@@ -1,6 +1,8 @@
 [Part 1] Raster processing
 ==========================
 
+.. todo:: TO BE UPDATED
+          
 Computation of :wikipedia:`NDVI` is a well known "discipline" in
 remote sensing. It is a simple task which requires basic knowledge of
 *map algebra*. The key GRASS module related to map algebra is

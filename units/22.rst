@@ -1,6 +1,8 @@
 [Part 2] Temporal Framework Python API
 ======================================
 
+.. todo:: TO BE UPDATED
+          
 There is another GRASS Python library to be introduced -
 :grasscmd2:`GRASS GIS Temporal Framework
 <libpython/temporal_framework.html>`.

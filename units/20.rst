@@ -1,6 +1,8 @@
 [Part 2] Accessing Sentinel EO data
 ===================================
 
+.. todo:: TO BE UPDATED
+          
 There are plenty of libraries or tools which allows downloading
 Sentinel products from `Copernicus Open Access Hub
 <https://scihub.copernicus.eu/>`__.
