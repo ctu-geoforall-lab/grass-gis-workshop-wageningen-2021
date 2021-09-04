@@ -1,7 +1,7 @@
 [Part 1] Data Management
 ========================
 
-Data can be imported simply from toolbar in :item:`Data` tab by tools
+Data can be imported simply from the toolbar in the :item:`Data` tab by tools
 dedicated for :wikipedia:`raster <GIS_file_formats#Raster>`
 |grass-raster-import| or :wikipedia:`vector <GIS_file_formats#Vector>`
 |grass-vector-import| GIS data formats. Basic knowledge of commonly
@@ -9,8 +9,8 @@ used :wikipedia:`GIS file formats` is required.
 
 .. note:: GRASS terminology differs from commonly used GIS
    packages. To avoid confusion let's focus on the most
-   important terms. Commonly used term "a layer" is called in
-   GRASS "a map". While GRASS layer is a subset of features within
+   important terms. The commonly used term "a layer" is called in
+   GRASS "a map". While the GRASS layer is a subset of features within
    one "map". So "GRASS raster map" can be treated as "a raster
    layer" in other GIS packages.
 
@@ -28,11 +28,11 @@ from the toolbar |grass-vector-import| :sup:`Import vector data
 .. figure:: ../images/units/03/odse_tiles.png
    :class: large
            
-   Imported vector data is automatically displayed in *Map Display*
-   window. Progress of import is shown in :item:`Console` tab.
+   Imported vector data is automatically displayed in the *Map Display*
+   window. Progress of import is shown in the :item:`Console` tab.
 
-Let's copy into the current location a world map from default location
-for better feeling.
+Let's copy into the current location a world map from the default location
+for a better feeling.
 
 .. figure:: ../images/units/03/copy-0.png
                
@@ -41,25 +41,25 @@ for better feeling.
 
 .. figure:: ../images/units/03/copy-1.png
 
-   Select the currect location and mapset and paste already selected
+   Select the current location and mapset and paste already selected
    data.
 
 .. figure:: ../images/units/03/copy-2.png
 
    Coordinate reference system of source (:epsg:`4326`) and target
    (:epsg:`3035`) location is different. GRASS will re-project
-   data. Let's keep default value for maximum segment length (10km).
+   data. Let's keep the default value for the maximum segment length (10km).
 
-To display copied vector data go to :item:`Data` tab, choose
-layer to be displayed and from contextual menu choose
-:item:`Display layer` (or use double-click on layer).
+To display copied vector data go to the :item:`Data` tab, choose
+the layer to be displayed and from the contextual menu choose
+:item:`Display layer` (or use double-click on the layer).
    
 .. figure:: ../images/units/03/display-layer.png
 
    Display layer from Data tab.
    
-After displaying data go to :item:`Display` tab and re-order
-layers. From contextual menu choose :item:`Properties` (or use
+After displaying data, go to the :item:`Display` tab and re-order
+layers. From the contextual menu choose :item:`Properties` (or use
 double-click on layer).
 
 .. figure:: ../images/units/03/display-properties.png
@@ -89,10 +89,10 @@ from the toolbar |grass-raster-import| :sup:`Import raster data
 .. figure:: ../images/units/03/dtm.png
    :class: large
            
-   Imported raster data is automatically displayed in *Map Display*
-   window. Progress of import is shown in :item:`Console` tab.
-   Default color table is not perfect as you can see, color
-   interpretation will enhanced in :ref:`Unit 04 <color-table>`.
+   Imported raster data is automatically displayed in the *Map Display*
+   window. Progress of import is shown in the :item:`Console` tab.
+   The default color table is not perfect as you can see, color
+   interpretation will be enhanced in :ref:`Unit 04 <color-table>`.
 
 .. _raster-metadata:
   
@@ -101,13 +101,13 @@ Layer Manager.
 
 .. figure:: ../images/units/03/raster-metadata.png
 
-   Show raster metadata from contextual menu.
+   Show raster metadata from the contextual menu.
 
 .. figure:: ../images/units/03/raster-metadata-cell.png
 
    Detail of raster metadata.
 
-Raster maps are represented by regular grid. Three data types are
+Raster maps are represented by a regular grid. Three data types are
 supported:
 
 * CELL (integer)
@@ -122,19 +122,19 @@ Notes
    differs from GRASS location (:item:`Project match`) input raster
    data is automatically reprojected into CRS of the current GRASS
    location. Note that GRASS simply does not support on the fly
-   transformation from several reasons.
+   transformation for several reasons.
 
 .. _import-no-srs:
 
-.. note:: In some cases SRS of imported file can be missing or
+.. note:: In some cases, SRS of imported files can be missing or
    invalid. GRASS reports this issue as *In case of no
    significant differences in the projection definitions, use
    the -o flag to ignore them and use current location
    definition.  Consider generating a new location from the
    input dataset using the 'location' parameter.*
 
-   GRASS allows importing such file by overriding project check
-   (if you are really sure that SRS of input file is the same
+   GRASS allows importing such files by overriding project check
+   (if you are really sure that SRS of the input file is the same
    as GRASS location).
 
 .. _vector-topo-section:
@@ -143,7 +143,7 @@ Vector topology
 ~~~~~~~~~~~~~~~
 
 Let's take a closer look at vector metadata of imported administrative
-regions. Instead of "polygons" there are "areas" and other kind of
+regions. Instead of "polygons" there are "areas" and other kinds of
 primitives (points, lines, boundaries, centroids, isles), see
 :numref:`vector-metadata`.
 
@@ -151,11 +151,11 @@ primitives (points, lines, boundaries, centroids, isles), see
 
 .. figure:: ../images/units/03/vector-metadata-features.png
 
-   Vector metadata of imported file.
+   Vector metadata of the imported file.
 
 GRASS GIS is a **topological GIS**. Importing vector data into GRASS also
-means converting features from simple feature model (points,
-linestrings, polygons, ...) into GRASS topological model.
+means converting features from the simple feature model (points,
+linestrings, polygons, ...) into the GRASS topological model.
 
 .. figure:: ../images/units/03/grass7-topo.png
    :class: middle
@@ -164,9 +164,9 @@ linestrings, polygons, ...) into GRASS topological model.
    boundaries, centroids, areas, and isles).
           
 Topological errors are checked and repaired by GRASS GIS when
-importing data, be awere of :param:`snap` option of
-:grasscmd:`v.import` module. Topological errors which is not possible
-repair automatically without user specification can fixed using
+importing data, be aware of the :param:`snap` option of the
+:grasscmd:`v.import` module. Topological errors impossible
+to be repaired automatically without user specification can be fixed using
 :grasscmd:`v.clean` module.
 
 .. _link-external:
@@ -183,7 +183,7 @@ by :grasscmd:`v.external` (*Link external vector data*).
            
    Link raster or vector data.
 
-Linking data is mainly recommended when working with raster data such
+Linking data is mainly recommended when working with raster data such as
 large datasets of imagery data. GRASS can handle linked raster data
-similarly as native raster maps. Both from point of stability and
+similarly to native raster maps. Both from points of stability and
 accessibility.
