@@ -4,8 +4,10 @@
 .. todo:: TO BE UPDATED
 
 Raster data processing is always performed in the current
-:ref:`compuational region <region>`. Let's demonstrate on computing
-univariate statistics.
+:ref:`computational region <region>`. Let's demonstrate it on
+computing univariate statistics.
+
+.. todo:: screenshot
 
 .. code-blocks:: bash
 
@@ -25,15 +27,15 @@ Let's change computational region interactively.
 Computing DTM derivates
 -----------------------
 
-Before computing set up computation region back to our :ref:`area of
-interest <aoi>`. Computation of slope or aspect from DTM is a well
-known "discipline" in GIS. This functionality in GRASS is provided by
-:grasscmd:`r.slope.aspect`. Beside slope or aspect the tool can also
-compute ...
+Before computing let's set up computational region back to our
+:ref:`area of interest <aoi>`. Computation of slope or aspect from DTM
+is a well known "discipline" in GIS. This functionality in GRASS is
+provided by :grasscmd:`r.slope.aspect`. Beside slope or aspect the
+tool can also compute curvatures and partial derivatives.
 
-.. todo:: finish paragraph above
-
-.. code-block;: bash
+.. todo:: screenshot
+                
+.. code-block:: bash
 
    r.slope.aspect elevation=dtm_5606 slope=slope_aoi aspect=aspect_aoi
 
@@ -43,106 +45,54 @@ Working with a mask
 Raster mask can be created by :grasscmd:`r.mask`. As other modules
 from ``r.*`` family it operates in the current computation region.
 
-.. todo:: import vector mask or remove
+.. todo:: import vector mask
 
 .. code-block:: bash
 
-   r.mask vector=city
+   v.buffer input=tile_5606 output=tile_5606_mask distance=-10000
+   r.mask vector=tile_5606_mask
+
+.. note:: A mask can be removed by :grasscmd:`r.mask`.
 
 Map algebra
 -----------
 
 The key GRASS module which allows a user to map algebra is
--:grasscmd:`r.mapcalc`.  A GUI tool for map algebra can be launched
+-:grasscmd:`r.mapcalc`. A GUI tool for map algebra can be launched
 from :menuselection:`Raster --> Raster map calculator` or by
 |grass-raster-calculator| :sup:`Raster map calculator` from a main
 toolbar.
 
-.. TODO:: move to new unit (part2)
+.. code-block:: bash
 
-To compute NDVI, the red (VIS) and near-infrared (NIR) channels are
-required. In the case of Sentinel-2, it refers to 4th and 8th
-band. The bands have been already imported into GRASS in :doc:`03`.
+   r.mapcalc expression="x = if(dtm_5606 > 1000 && slope_aoi > 40, dtm_5606)"
 
-.. math::
-        
-   NDVI = (NIR - VIS) / (NIR  + VIS)
+Automatization
+--------------
 
-A GUI tool for map algebra can be launched from :menuselection:`Raster
---> Raster map calculator` or by |grass-raster-calculator|
-:sup:`Raster map calculator` from a main toolbar.
+Graphical Modeler
+~~~~~~~~~~~~~~~~~
 
-.. important:: Be aware that :grasscmd:`r.mapcalc` as other raster
-   processing modules are sensitive to computational region which
-   **must to be set before any computation**, see :ref:`region` section
-   for details.
+**Graphical Modeler** allows creating, editing, and managing complex
+models in easy-to-use graphical user interface. Using Graphical
+Modeler a chain of tool (ie. GRASS modules) can be wrapped
+into one process (a model). A model can be executed repeatedly with
+slightly different inputs or parameters.
 
-.. figure:: ../images/units/05/mapcalc-gui.svg
+.. todo:: model
 
-   Compute NDVI using GUI raster map calculator by
-   :item:`Expression`. The result is defined by :item:`Output`
-   section.
+v.extract input=odse_tiles output=tile where="tile_id = 5606"
+g.region vector=tile align=dtm
+r.slope.aspect input=dtm slope=slope_tile
+r.univar map=slope_tile
 
-Corresponding command for CLI (map names shorten):
+Example of Python script
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-   r.mapcalc expression="ndvi = float(B08_10m - B04_10m) / ( B08_10m + B04_10m )"
+   slope_aoi.py tile_id=5606 elevation=dtm elevation_threshold=1000
 
-.. note:: Because all input raster maps are CELL type (integer) at
-          least one sub-result must be converted to floating-point (here
-          by ``float()`` function). Otherwise result would be also CELL map
-          (integer: -1, 0, 1).
-
-.. figure:: ../images/units/05/ndvi-mapcalc.png
-   :class: middle
-           
-   NDVI computed by :grasscmd:`r.mapcalc` map algebra module (Jena
-   city in red color).
-
-Result is not perfect:
-
-* default color table *viridis* is not suitable for NDVI values
-* NDVI has been computed also in cloudy areas
-
-The first issue can be easily fixed by :grasscmd:`r.colors`
-(:menuselection:`Raster --> Manage colors --> Color tables`), see
-:ref:`color-table` section. The second issue requires setting a mask
-to ignore cloudy areas in computation. This operation can be done by
-:grasscmd:`r.mask` module (:menuselection:`Raster --> Mask`).
-
-A mask will defined base on cloud mask vector map in inverse
-manner. Note that mask as other raster processing is created only
-within the current computation region.
-
-.. figure:: ../images/units/05/r-mask.png
-
-   Creating mask from an input vector map.
+   slope_aoi.py tile_id=5606 elevation=dtm
    
-.. code-block:: bash
-
-   r.mask -i vector=MaskFeature
-
-.. note:: Cloud mask provided by Sentinel products is not perfect, but
-   it is a good starting point for us.
-
-There is also specialized module for computing various vegetation
-indices including NDVI - :grasscmd:`i.vi`. This module makes NDVI
-computing even simpler.
-
-Let's recompute :map:`ndvi` map using :grasscmd:`i.vi` (map names
-shorten):
-
-.. code-block:: bash
-
-   i.vi red=B04_10m output=ndvi viname=ndvi nir=B08_10m
-
-.. tip:: Also a simple legend can be added to map display by
-   |grass-overlay-add| :sup:`Add map elements` (*Add raster legend*) from
-   Map Display toolbar.
-
-   .. figure:: ../images/units/05/ndvi-vi.png
-      :class: middle
-           
-      Final NDVI result with cloud mask and simple legend.
-
+.. todo:: write script
