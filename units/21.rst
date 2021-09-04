@@ -1,60 +1,44 @@
 [Part 2] Time series data processing
 ====================================
 
-.. todo:: TO BE UPDATED
+GRASS GIS offers high quality tools for spatio-temporal data
+processing, see :grasscmd:`GRASS documentation <temporalintro>` for
+details.
+
+GRASS introduces three special datatypes that are designed to handle
+time series data:
+
+* *Space time raster datasets* (``strds``) for managing raster map
+  time series.
+* *Space time 3D raster datasets* (``str3ds``) for managing 3D raster
+  map time series.
+* *Space time vector datasets* (``stvds``) for managing vector map time
+  series.
+
+Import Sentinel scenes
+----------------------
           
-Create a new mapset in *jena-region* location, eg. *sentinel-ndvi*
+Create a new mapset in *odse_sentinel* location, eg. *t-ndvi*
 (:menuselection:`Settings --> GRASS working enviroment --> Create new
 mapset`).
 
-Let's download Sentinel L2A products for spring/summer
-2019. There are 7 products available as shown below.
-
-.. code-block:: bash
-                
-   i.sentinel.download -l settings=sentinel.txt map=jena_boundary area_relation=Contains \
-   start=2019-04-01 end=2019-10-31 producttype=S2MSI2A clouds=10
-
-::
-   
-   7 Sentinel product(s) found
-   a0ae6f58-4890-4382-bbd8-571874bfc65e 2019-06-26T10:20:31Z  1% S2MSI2A
-   caa11e7b-454d-4301-86b9-4c11659cc8a1 2019-04-17T10:20:31Z  3% S2MSI2A
-   31ad53f4-146a-41a8-bce6-d9e99dfd7f66 2019-04-22T10:20:29Z  3% S2MSI2A
-   e6ecc89f-0a06-498b-9e8d-354d1e8ead4e 2019-10-14T10:20:31Z  5% S2MSI2A
-   3fe2df76-019d-4611-8ffb-560683ae4500 2019-08-25T10:20:31Z  6% S2MSI2A
-   be91b224-0d6c-45d0-95a5-5cf5743a349e 2019-09-04T10:20:21Z  7% S2MSI2A
-   60149bc8-5ab0-4a79-b964-24672739d5b9 2019-04-07T10:20:21Z  9% S2MSI2A
-
-Download selected Sentinel scenes:
-
-.. code-block:: bash
-                
-   i.sentinel.download settings=sentinel.txt map=jena_boundary area_relation=Contains \
-   start=2019-04-01 end=2019-10-31 producttype=S2MSI2A clouds=10 \
-   output=geodata/sentinel/2019
-   
-.. note:: Pre-downloaded Sentinel scenes are available in the sample
-   dataset :file:`geodata/sentinel/2019`.
+.. todo:: add icon (data tab)
 
 Data can be imported by :grasscmd:`i.sentinel.import` similarly as
 done in :doc:`20`. At fisrt check list of bands to be imported by
-:param:`-p` flag. Since NDVI is going to be computed only 4th and 8th
-band are selected.
+:param:`-p` flag. By :param:`pattern` on bands (4th and 8th) needed
+for NDVI computation will be selected.
 
 .. code-block:: bash
 
    i.sentinel.import -p input=/home/user/geodata/sentinel/2019 pattern="B0(4|8)_10m"
    
-   i.sentinel.import -l -c input=/home/user/geodata/sentinel/2019 pattern="B0(4|8)_10m"
+It's useful to provide also :option:`register_output` which be later
+used in order to create space-time dataset from imported Sentinel data.
 
-.. note:: In GRASS GIS 7.9 use :option:`register_output` in order to
-   create timestamps directly.
+.. code-block:: bash
 
-   .. code-block:: bash
-
-      i.sentinel.import -l -c input=/home/user/geodata/sentinel/2019 pattern="B0(4|8)_10m" \
-      register_output=/home/user/sentinel-timestamps.txt
+   i.sentinel.import -l -c input=/home/user/geodata/sentinel/2019 pattern="B0(4|8)_10m" register_output=/home/user/sentinel-timestamps.txt
 
    Example
 
@@ -64,29 +48,6 @@ band are selected.
       T32UPB_20190407T102021_B08_10m|2019-04-07 10:26:45.035007|S2_8
       T32UPB_20190422T102029_B04_10m|2019-04-22 10:26:50.312683|S2_4
       ...
-   
-   Otherwise follow cookbook below. Unfortunately there are no
-   timestamps for imported maps required by
-   :grasscmd:`t.register`. For this purpose a simple Python script has
-   been designed.
-
-   .. literalinclude:: ../_static/scripts/sentinel-timestamp.py
-      :language: python
-      :linenos:
-      :emphasize-lines: 27, 30
-
-   Timestamps can be easily determined from raster map name, for example
-   *L2A_T32UPB_A021941_20190904T102045* raster map will be timestamped by
-   *2019-09-04 10:20:45*, see line :lcode:`30`.
-
-   Sample script to download: `sentinel-timestamp.py
-   <../_static/scripts/sentinel-timestamp.py>`__
-
-   By running this script a timestamp file will be produced.
-
-   .. code-block:: bash
-
-      sentinel-timestamp.py output=sentinel-timestamps.txt
 
 At this moment a new space time dataset can be created by
 :grasscmd:`t.create` and all imported Sentinel bands registered by
@@ -94,15 +55,15 @@ At this moment a new space time dataset can be created by
 
 .. code-block:: bash
 
-   t.create output=sentinel title="Sentinel L2A 2019" desc="Jena region"
-   t.register input=sentinel file=/home/user/sentinel-timestamps.txt
+   t.create output=sen_tile_5606 title="Sentinel L2A 2021" desc="Tile 5606"
+   t.register input=sen_tile_5606 file=/home/user/sentinel-timestamps.txt
 
 Let's check basic metadata (:grasscmd:`t.info`) and list of registered
 maps (:grasscmd:`t.rast.list`).
 
 .. code-block:: bash
 
-   t.info input=sentinel
+   t.info input=sen_tile_5606
 
 ::
 
@@ -114,14 +75,14 @@ maps (:grasscmd:`t.rast.list`).
 
 .. code-block:: bash
 
-   t.rast.list input=sentinel
+   t.rast.list input=sen_tile_5606
 
 ::
 
    name|mapset|start_time|end_time
-   T32UPB_20190407T102021_B04_10m|sentinel|2019-04-07 10:26:45.035007|None
-   T32UPB_20190407T102021_B08_10m|sentinel|2019-04-07 10:26:45.035007|None
-   T32UPB_20190417T102031_B04_10m|sentinel|2019-04-17 10:26:46.415802|None
+   T32UPB_20190407T102021_B04_10m|sen_tile_5606|2019-04-07 10:26:45.035007|None
+   T32UPB_20190407T102021_B08_10m|sen_tile_5606|2019-04-07 10:26:45.035007|None
+   T32UPB_20190417T102031_B04_10m|sen_tile_5606|2019-04-17 10:26:46.415802|None
    ...
 
 NDVI ST computation
@@ -135,8 +96,8 @@ be prepared by :grasscmd:`t.rast.extract`.
 
 .. code-block:: bash
 
-   t.rast.extract input=sentinel where="name like '%B04%'" output=b4
-   t.rast.extract input=sentinel where="name like '%B08%'" output=b8
+   t.rast.extract input=sen_tile_5606 where="name like '%B04%'" output=b4
+   t.rast.extract input=sen_tile_5606 where="name like '%B08%'" output=b8
 
 Let's check content of the new datasets by :grasscmd:`t.rast.list`.
 
@@ -167,8 +128,8 @@ performed in parallel (:param:`nproc`).
 
    .. code-block:: bash
                    
-      t.rast.mapcalc inputs=sentinel.S2_8,sentinel.S2_4 output=ndvi basename=ndvi \
-      expression="float(sentinel.S2_8 - sentinel.S2_4) / (sentinel.S2_8 + sentinel.S2_4)"
+      t.rast.mapcalc inputs=sen_tile_5606.S2_8,sen_tile_5606.S2_4 output=ndvi basename=ndvi \
+      expression="float(sen_tile_5606.S2_8 - sen_tile_5606.S2_4) / (sen_tile_5606.S2_8 + sen_tile_5606.S2_4)"
 
 When computation is finished *ndvi* color table can be by
 :grasscmd:`t.rast.colors`.
@@ -190,17 +151,14 @@ When computation is finished *ndvi* color table can be by
 Cloud mask
 ^^^^^^^^^^
 
-The result is not perfect enough. At least cloud mask should be
-applied before NDVI computation. This operation can be easily solved
-by applying new space time dataset containing computed raster masks. A
-sample Python script has been designed for this purpose below. The
-script also produces a timestamp file similarly to
-:file:`sentinel-timestamp.py`. Such mask can be created by
-:grasscmd:`r.mask`, see line :lcode:`30`. But in this case a mask
-should be kept for further usage. Note that :grasscmd:`r.mask` module
-produces normal raster map with unique name *MASK*. To disable mask it
-is enough to rename *MASK* map by :grasscmd:`g.rename`, see line
-:lcode:`43`.
+Let's apply cloud mask on space-time dataset. At first we will create
+a new space-time dataset containing computed raster masks. A sample
+Python script has been designed for this purpose below. Such mask can
+be created by :grasscmd:`r.mask`, see line :lcode:`30`. But in this
+case a mask should be kept for further usage. Note that
+:grasscmd:`r.mask` module produces normal raster map with unique name
+*MASK*. To disable mask it is enough to rename *MASK* map by
+:grasscmd:`g.rename`, see line :lcode:`43`.
 
 .. literalinclude:: ../_static/scripts/sentinel-cloud-mask.py
    :language: python
@@ -236,6 +194,3 @@ And apply modified expression for map algebra.
    :class: middle
 
    Simple NDVI animation with clouds mask applied.
-
-
-   
