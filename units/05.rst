@@ -2,11 +2,63 @@
 ==========================
 
 .. todo:: TO BE UPDATED
-          
-Computation of :wikipedia:`NDVI` is a well known "discipline" in
-remote sensing. It is a simple task which requires basic knowledge of
-*map algebra*. The key GRASS module related to map algebra is
-:grasscmd:`r.mapcalc`.
+
+Raster data processing is always performed in the current
+:ref:`compuational region <region>`. Let's demonstrate on computing
+univariate statistics.
+
+.. code-blocks:: bash
+
+   r.univar map=dtm_5606
+
+computes statistics from input data located in the current computation
+region.
+
+.. todo:: output
+
+Let's change computational region interactively.
+
+.. todo:: screenshot
+
+.. todo:: output
+
+Computing DTM derivates
+-----------------------
+
+Before computing set up computation region back to our :ref:`area of
+interest <aoi>`. Computation of slope or aspect from DTM is a well
+known "discipline" in GIS. This functionality in GRASS is provided by
+:grasscmd:`r.slope.aspect`. Beside slope or aspect the tool can also
+compute ...
+
+.. todo:: finish paragraph above
+
+.. code-block;: bash
+
+   r.slope.aspect elevation=dtm_5606 slope=slope_aoi aspect=aspect_aoi
+
+Working with a mask
+-------------------
+
+Raster mask can be created by :grasscmd:`r.mask`. As other modules
+from ``r.*`` family it operates in the current computation region.
+
+.. todo:: import vector mask or remove
+
+.. code-block:: bash
+
+   r.mask vector=city
+
+Map algebra
+-----------
+
+The key GRASS module which allows a user to map algebra is
+-:grasscmd:`r.mapcalc`.  A GUI tool for map algebra can be launched
+from :menuselection:`Raster --> Raster map calculator` or by
+|grass-raster-calculator| :sup:`Raster map calculator` from a main
+toolbar.
+
+.. TODO:: move to new unit (part2)
 
 To compute NDVI, the red (VIS) and near-infrared (NIR) channels are
 required. In the case of Sentinel-2, it refers to 4th and 8th

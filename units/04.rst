@@ -128,6 +128,8 @@ Full flexibility for operating with computation region allows
 :grasscmd:`g.region` module (:menuselection:`Settings --> Computational
 region --> Set region`). Example below:
 
+.. -aoi:
+   
 .. code-block:: bash
 
    g.region vector=tile_5606_1km align=dtm_5606
