@@ -3,8 +3,6 @@
 
 .. todo:: TO BE UPDATED
 
-.. todo:: t.sentinel + t.rast.mosaics ?
-          
 GRASS offers Python API for :grasscmd2:`space-time processing
 <libpython/temporal_framework.html>`. The usage is presented on script
 described below.
@@ -23,7 +21,7 @@ classes:
 * Class 3: from 0.6 to 1.0
 
 The desired output will be a vector map with NDVI classes. Let's also
-eliminate too small areas.
+eliminate small areas.
 
 Workflow:
 
