@@ -168,9 +168,10 @@ Let's mask cloudy areas by a mask already provided by Sentinel
 product. Note that masking as other raster processing is performed
 only within the current computation region, see :doc:`04`.
 
-.. figure:: ../images/units/05/r-mask.png
+..
+   .. figure:: ../images/units/05/r-mask.png
 
-   Creating mask from an input vector map.
+      Creating mask from an input vector map.
    
 .. code-block:: bash
 
@@ -186,7 +187,8 @@ only within the current computation region, see :doc:`04`.
    |grass-overlay-add| :sup:`Add map elements` (*Add raster legend*)
    from Map Display toolbar.
 
-   .. figure:: ../images/units/05/ndvi-vi.png
-      :class: middle
-           
-      Final NDVI product with cloud mask applied with simple legend.
+   ..
+      .. figure:: ../images/units/05/ndvi-vi.png
+         :class: middle
+
+         Final NDVI product with cloud mask applied with simple legend.

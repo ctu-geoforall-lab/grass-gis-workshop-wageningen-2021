@@ -138,11 +138,12 @@ When computation is finished *ndvi* color table can be by
 
    t.rast.colors input=ndvi color=ndvi
 
-.. figure:: ../images/units/21/simple-animation.gif
-   :class: middle
+..
+   .. figure:: ../images/units/21/simple-animation.gif
+      :class: middle
 
-   Simple NDVI animation (no clouds mask applied) created by
-   :grasscmd:`g.gui.animation`.
+      Simple NDVI animation (no clouds mask applied) created by
+      :grasscmd:`g.gui.animation`.
 
 .. note:: Load data as multiple raster maps instead of space time
           dataset. There is problem with sampling related to trick
@@ -190,7 +191,8 @@ And apply modified expression for map algebra.
 
    t.rast.colors in=ndvi color=ndvi
 
-.. figure:: ../images/units/21/simple-animation-clouds.gif
-   :class: middle
+..
+   .. figure:: ../images/units/21/simple-animation-clouds.gif
+      :class: middle
 
-   Simple NDVI animation with clouds mask applied.
+      Simple NDVI animation with clouds mask applied.

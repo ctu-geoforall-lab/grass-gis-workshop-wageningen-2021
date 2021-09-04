@@ -5,39 +5,65 @@
 
 Raster data processing is always performed in the current
 :ref:`computational region <region>`. Let's demonstrate it on
-computing univariate statistics.
+computing univariate statistics by :grasscmd:`r.univar` module.
 
-.. todo:: screenshot
+.. figure:: ../images/units/05/r-univar-menu.png
 
-.. code-blocks:: bash
+   Computing univariate statistics from contextual menu.
+   
+.. code-block:: bash
 
    r.univar map=dtm_5606
 
-computes statistics from input data located in the current computation
-region.
+The module computes statistics from input data located in the current
+computation region.
 
-.. todo:: output
+::
 
-Let's change computational region interactively.
+   total null and non-null cells: 1140624
+   total null cells: 44491
 
-.. todo:: screenshot
+   Of the non-null cells:
+   ----------------------
+   n: 1096133
+   minimum: 0
+   maximum: 1395
 
-.. todo:: output
+Let's change computational region interactively from Map Display
+|grass-zoom-menu| :sub:`Set computational region extent
+interactively`.
+
+.. figure:: ../images/units/05/set-region-interactively.png
+
+   Set computational region extent interactively.
+
+::
+
+   total null and non-null cells: 76000
+   total null cells: 0
+   Of the non-null cells:
+   ----------------------
+   n: 76000
+   minimum: 181
+   maximum: 1347   
 
 Computing DTM derivates
 -----------------------
 
-Before computing let's set up computational region back to our
-:ref:`area of interest <aoi>`. Computation of slope or aspect from DTM
-is a well known "discipline" in GIS. This functionality in GRASS is
-provided by :grasscmd:`r.slope.aspect`. Beside slope or aspect the
-tool can also compute curvatures and partial derivatives.
+Let's set up computational region back to our :ref:`area of interest
+<aoi>`. Computation of slope or aspect from DTM is a well known
+"discipline" in GIS. This functionality in GRASS is provided by
+:grasscmd:`r.slope.aspect`. Beside slope or aspect the tool can also
+compute curvatures and partial derivatives.
 
-.. todo:: screenshot
-                
 .. code-block:: bash
 
    r.slope.aspect elevation=dtm_5606 slope=slope_aoi aspect=aspect_aoi
+
+.. figure:: ../images/units/05/slope.png
+   :class: middle
+           
+   Slope computed from DTM in the current computational region.
 
 Working with a mask
 -------------------
@@ -45,14 +71,29 @@ Working with a mask
 Raster mask can be created by :grasscmd:`r.mask`. As other modules
 from ``r.*`` family it operates in the current computation region.
 
-.. todo:: import vector mask
+Let's create mask defined by 10km buffer around highways. The highways
+data :file:`highways.gpkg` can be imported similarly as explain in
+:doc:`03`.
+
+.. note:: CRS of highways (:epsg:`4326`) differs from location CRS
+   (:epsg:`3035`). It means that GRASS will perform reproject data
+   into location CRS.
+
+   .. figure:: ../images/units/05/re-project.png
+           
+      GRASS will reproject input data into location CRS.
 
 .. code-block:: bash
 
-   v.buffer input=tile_5606 output=tile_5606_mask distance=-10000
-   r.mask vector=tile_5606_mask
+   v.buffer input=highways output=highways_500m distance=500
+   r.mask vector=highways_500m
 
-.. note:: A mask can be removed by :grasscmd:`r.mask`.
+.. figure:: ../images/units/05/mask.png
+   :class: middle
+           
+   Mask applied.
+          
+.. note:: A mask can be removed by ``r.mask -r``.
 
 Map algebra
 -----------

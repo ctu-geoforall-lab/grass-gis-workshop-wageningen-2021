@@ -128,7 +128,7 @@ Full flexibility for operating with computation region allows
 :grasscmd:`g.region` module (:menuselection:`Settings --> Computational
 region --> Set region`). Example below:
 
-.. -aoi:
+.. _aoi:
    
 .. code-block:: bash
 
