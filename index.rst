@@ -45,36 +45,9 @@ GRASS GIS 8 (Part 2): Processing multitemporal EO data
 .. toctree::
    :maxdepth: 2
 
-   units/20
-   units/21
-   units/22
-
-   ..
-      units/03
-      units/04
-      units/05
-      units/06
-      units/07
-      units/08
-      units/09
-      units/10
-      units/11
-      units/12
-      units/13
-      units/14
-      units/15
-      units/16
-      units/17
-      units/18
-      units/19
-      units/23
-      units/24
-      units/25
-      units/26
-      units/27
-      units/28
-      units/29
-      units/30
+   units/06
+   units/07
+   units/08
 
 Lecturer
 ========

@@ -1,165 +1,169 @@
-Unit 07 - QGIS loves GRASS
-==========================
+[Part 2] Time series data processing
+====================================
 
-Let's step out of the GRASS GIS for a moment. `QGIS
-<http://qgis.org>`__ is a very popular open source GIS package which
-made a significant progress in the last years. Nowadays it's used in
-education, academic environment, but also in commercial settings. The
-project started originally more or less as a multiplatform browser for
-geospatial data. This is not a true any more, QGIS made important
-steps for being an analytic tool. Beside native algoritms QGIS offers
-also connection to external software packages like SAGA, Orfeo or
-GRASS GIS. In other words, GRASS tools can be run directly from QGIS
-enviroment without starting GRASS explicitly.
+GRASS GIS offers specialized tools for spatio-temporal data
+processing, see :grasscmd:`GRASS documentation <temporalintro>` for
+details.
 
-There are two options how to access GRASS tools from QGIS environment:
+GRASS introduces three special datatypes that are designed to handle
+time series data:
 
-* generic **Processing** plugin
-* specialized **GRASS** plugin
+* *Space time raster datasets* (``strds``) for managing raster map
+  time series.
+* *Space time 3D raster datasets* (``str3ds``) for managing 3D raster
+  map time series.
+* *Space time vector datasets* (``stvds``) for managing vector map time
+  series.
 
-Both plugins can be easily activated from :menuselection:`Plugins -->
-Manage and Install Plugins`.
+Create space-time dataset
+-------------------------
 
-Let's focus on our "favorite" GRASS module - :grasscmd:`i.vi`. At
-first, load into QGIS input data, Jena city region and Sentinel bands
-(red and near-infrared channels).
+At this moment a new space time dataset can be created by
+:grasscmd:`t.create` and all imported Sentinel bands registered by
+:grasscmd:`t.register`.
 
-.. figure:: ../images/units/07/qgis-input-data.png
-   :class: middle
-           
-   Input data loaded in QGIS.
+.. code-block:: bash
 
-Processing plugin
------------------
+   t.create output=sen_tile_5606 title="Sentinel L2A 2021" desc="Tile 5606"
+   t.register input=sen_tile_5606 file=/home/user/sentinel-timestamps.txt
 
-Processing plugin is a generic toolbox which allows to run processing
-tools provided by various software packages. Let's open
-:menuselection:`Processing --> Toolbox` and search for
-:grasscmd:`i.vi` GRASS module.
+Let's check basic metadata (:grasscmd:`t.info`) and list of registered
+maps (:grasscmd:`t.rast.list`).
 
-.. figure:: ../images/units/07/processing-i-vi.png
-   :class: small
-           
-   Search for :grasscmd:`i.vi` GRASS module in Processing toolbox.
+.. code-block:: bash
 
-.. figure:: ../images/units/07/processing-i-vi-params.svg
-   :class: middle
-                    
-   Set input parameters (red and nir channels). Computation extent can
-   be optionally defined in :item:`Advanced parameters` section.
+   t.info input=sen_tile_5606
 
-:numref:`processing-i-vi-running` shows how Processing plugin
-works. First of all a temporary GRASS location is created by
-:grasscmd:`g.proj`, input data is linked into temporary location by
-:grasscmd:`r.external`. Then computation can finally starts by running
-:grasscmd:`i.vi` module. In the last step output data are exported out
-of GRASS using :grasscmd:`r.out.gdal`. The resultant GeoTiff file is
-displayed in QGIS map window.
+::
 
-.. _processing-i-vi-running:
+   ...
+   | Start time:................. 2021-06-24 09:19:52.607078
+   | End time:................... 2021-08-28 09:19:49.080855
+   ...
+   | Number of registered maps:.. 6
 
-.. figure:: ../images/units/07/processing-i-vi-running.png
-           
-   Running :grasscmd:`i.vi` tool, significant portion of computation
-   time takes exporting data out of GRASS temporary session.
-   
-.. _processing-result:
+.. code-block:: bash
 
-.. figure:: ../images/units/07/processing-result.png
-   :class: large
-           
-   Resultant NDVI raster displayed in QGIS map window (with better
-   color interpretation than grayscale). No clouds mask involved.
+   t.rast.list input=sen_tile_5606
 
-GRASS plugin
-------------
+::
 
-GRASS plugin has been designed to support GRASS as a *native*
-processing toolbox.  This also includes ability to display data stored
-in GRASS native format (raster and vector maps located in GRASS
-locations). And, of course, ability to run any GRASS command with full
-flexibility of GRASS GIS environment. On the other hand, in contrast
-to *Processing* plugin, the GRASS plugin requires at least a basic
-knowledge of GRASS GIS concept. User have to understand concept of
-locations and mapsets, and control of computational region. In
-opposite to Processing plugin a data created by GRASS plugin are
-persistent, so accessible also by GRASS GIS itself.
+   name|mapset|start_time|end_time
+   T34SGH_20210624T090601_B04_20m|PERMANENT|2021-06-24 09:19:52.607078|None
+   T34SGH_20210624T090601_B8A_20m|PERMANENT|2021-06-24 09:19:52.607078|None
+   T34SGH_20210729T090559_B04_20m|PERMANENT|2021-07-29 09:19:53.186492|None
+   T34SGH_20210729T090559_B8A_20m|PERMANENT|2021-07-29 09:19:53.186492|None
+   T34SGH_20210828T090549_B04_20m|PERMANENT|2021-08-28 09:19:49.080855|None
+   T34SGH_20210828T090549_B8A_20m|PERMANENT|2021-08-28 09:19:49.080855|None
 
-In order to use GRASS tools, there must be a location and a mapset
-available to be entered. New location/mapset can be created by
-:menuselection:`Plugins --> GRASS --> New Mapset`. Creating a new
-mapset using GRASS plugin is a very similar procedure to creating
-location/mapset in native GRASS GIS environment, see :ref:`Creating
-new location <create-location>` (Unit 02). Since there is already
-GRASS location and mapset prepared from :doc:`02` it can be entered
-by :menuselection:`Plugins --> GRASS --> Open Mapset`.
+NDVI ST computation
+-------------------
 
-.. figure:: ../images/units/07/grass-open-mapset.png
-   :class: small
-           
-   Enter existing location and mapset by GRASS plugin.
+For NDVI computation 4th and 8th bands are required (:doc:`05`). Map
+algebra is performed in the case of spatio-temporal data by
+:grasscmd:`t.rast.mapcalc` which requires data separated into
+spatio-temporal datasets (see example in :doc:`22`). Such datasets can
+be prepared by :grasscmd:`t.rast.extract`.
 
-After entering an existing mapset, the GRASS tools are activated from
-menu :menuselection:`Plugins --> GRASS --> Open GRASS Tools`.
+.. code-block:: bash
 
-As advanced GRASS users it is clear that before any raster-related
-computation a desired computational region must be defined. For this
-task, GRASS plugin offers GUI tool in :item:`Region` tab. In any case,
-for more advanced operations can be used :grasscmd:`g.region` module.
+   t.rast.extract input=sen_tile_5606 where="name like '%B04%'" output=b4
+   t.rast.extract input=sen_tile_5606 where="name like '%B8A%'" output=b8
 
-.. figure:: ../images/units/07/grass-region.svg
+Let's check content of the new datasets by :grasscmd:`t.rast.list`.
 
-   Set computation region from map display. Don't forget to set
-   correct spatial resolution (for real work it's better to use
-   :grasscmd:`g.region` with `align` option).
+.. code-block:: bash
 
-Simply launch :grasscmd:`i.vi` from :item:`Modules` tab.
+   t.rast.list input=b4
+   t.rast.list input=b8
 
-.. figure:: ../images/units/07/grass-i-vi.png
+..
+   Set computational region by :grasscmd:`g.region` including mask for
+   area of interest by :grasscmd:`r.mask`.
 
-   Launch :grasscmd:`i.vi` module from GRASS plugin.
+   .. code-block:: bash
+
+      g.region vector=jena_boundary align=T32UPB_20190407T102021_B04_10m
+      r.mask vector=jena_boundary
+
+NDVI (see :doc:`06`) computation on spatio-temporal datasets can be
+performed in parallel (:param:`nproc`).
           
-.. tip:: GRASS modules can be launched from *GRASS shell* as shows
-   the figure below.
+.. code-block:: bash
 
-   .. figure:: ../images/units/07/grass-shell.png
-        
-      Start a GRASS Shell.
+   t.rast.mapcalc input=b4,b8 output=ndvi expression="float(b8 - b4) / ( b8 + b4 )" \
+   basename=ndvi nproc=3
 
-   By adding a flag :param:`--ui` to the end of command, a native
-   GRASS GUI dialog appears. In this way other GRASS tools like
-   :grasscmd:`g.gui.gmodeler` (see :doc:`08`) or a whole GRASS GUI by
-   :grasscmd:`g.gui` can started. Yes, it seems schizophrenic a bit to
-   start GRASS GUI from GRASS plugin in QGIS environment. Someone can
-   ask, why don't you use GRASS directly ;-)
+.. note:: In GRASS GIS 7.9 due to band reference support the
+   computation is much more straighforward.
 
-   .. figure:: ../images/units/07/grass-i-vi-shell.svg
-      :class: large
-           
-      Launch native GUI dialog for :grasscmd:`i.vi` GRASS module.
+   .. code-block:: bash
+                   
+      t.rast.mapcalc inputs=sen_tile_5606.S2_8,sen_tile_5606.S2_4 output=ndvi basename=ndvi \
+      expression="float(sen_tile_5606.S2_8 - sen_tile_5606.S2_4) / (sen_tile_5606.S2_8 + sen_tile_5606.S2_4)"
 
-.. note:: NDVI can be alternatively computed using
-   :grasscmd:`r.mapcalc`.
+When computation is finished *ndvi* color table can be by
+:grasscmd:`t.rast.colors`.
 
-   .. figure:: ../images/units/07/grass-r-mapcalc.png
-      :class: small
-   
-      Search :grasscmd:`r.mapcalc` module in GRASS plugin.
+.. code-block:: bash
 
-   GRASS plugin offers a native graphical front-end for map algebra.
+   t.rast.colors input=ndvi color=ndvi
 
-      .. figure:: ../images/units/07/grass-map-calc.png
+..
+   .. figure:: ../images/units/07/simple-animation.gif
+      :class: middle
 
-         Graphical Map Calculator in GRASS plugin.
+      Simple NDVI animation (no clouds mask applied) created by
+      :grasscmd:`g.gui.animation`.
 
-Resultant output data are stored in the current mapset open by GRASS
-plugin. Native GRASS data can be directly accessed from QGIS *Browse
-Panel* in a standard way as other data sources, see
-:numref:`qgis-grass-browser`.
+.. note:: Load data as multiple raster maps instead of space time
+          dataset. There is problem with sampling related to trick
+          with endtime mentioned above.
 
-.. _qgis-grass-browser:
+Cloud mask
+^^^^^^^^^^
 
-.. figure:: ../images/units/07/grass-data-browse.png
-   :class: large
-        
-   Browse GRASS data similarly as other data sources.
+Let's apply cloud mask on space-time dataset. At first we will create
+a new space-time dataset containing computed raster masks. A sample
+Python script has been designed for this purpose below. Such mask can
+be created by :grasscmd:`r.mask`, see line :lcode:`30`. But in this
+case a mask should be kept for further usage. Note that
+:grasscmd:`r.mask` module produces normal raster map with unique name
+*MASK*. To disable mask it is enough to rename *MASK* map by
+:grasscmd:`g.rename`, see line :lcode:`43`.
+
+.. literalinclude:: ../_static/scripts/sentinel-cloud-mask.py
+   :language: python
+   :linenos:
+   :emphasize-lines: 30, 43
+
+Sample script to download: `sentinel-cloud-mask.py
+<../_static/scripts/sentinel-cloud-mask.py>`__
+	     
+.. code-block:: bash
+		
+   sentinel-cloud-mask.py map=jena_boundary output=cloud-timestamps.txt
+
+Now we can create a new space time dataset with raster cloud masks
+registered.
+
+.. code-block:: bash
+
+   t.create output=clouds title="Sentinel L2A 2019 (clouds)" desc="Jena region"
+   t.register input=clouds file=cloud-timestamps.txt
+
+And apply modified expression for map algebra.
+
+.. code-block:: bash
+
+   t.rast.mapcalc input=b4,b8,clouds output=ndvi \
+   expression="ndvi = if(isnull(clouds), null(), float(b8 - b4) / ( b8 + b4 ))" \
+   basename=ndvi nproc=3
+
+   t.rast.colors in=ndvi color=ndvi
+
+..
+   .. figure:: ../images/units/07/simple-animation-clouds.gif
+      :class: middle
+
+      Simple NDVI animation with clouds mask applied.

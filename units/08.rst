@@ -1,95 +1,124 @@
-Unit 08 - Modeler
-=================
+[Part 2] Temporal Framework Python API
+======================================
 
-**Graphical Modeler** allows creating, editing, and managing complex
-models in easy-to-use graphical user interface. Using Graphical
-Modeler a chain of processes (ie. GRASS modules) can be wrapped
-into one process (a model). A model can be executed repeatedly with
-slightly different inputs or parameters.
+.. todo:: TO BE UPDATED
 
-Our first model will be based on :doc:`05`. Actually the model will
-perform two operations:
+GRASS offers Python API for :grasscmd2:`space-time processing
+<libpython/temporal_framework.html>`. The usage is presented on script
+described below.
 
-#. set mask based on vector cloud mask file (:grasscmd:`r.mask`) and
-#. compute NDVI (:grasscmd:`i.vi`)
+NDVI values range from +1.0 to -1.0. Areas of barren rock, sand, or
+snow usually show very low NDVI values (for example, 0.1 or
+less). Sparse vegetation such as shrubs and grasslands or senescing
+crops may result in moderate NDVI values (approximately 0.2 to
+0.5). High NDVI values (approximately 0.6 to 0.9) correspond to dense
+vegetation such as that found in temperate and tropical forests or
+crops at their peak growth stage. Let's classify NDVI into 3 major
+classes:
 
-Graphical Modeler can be launched from menu :menuselection:`File -->
-Graphical modeler` or by |grass-modeler-main| :sup:`Graphical Modeler`
-from the main toolbar (or alternatively as :grasscmd:`g.gui.gmodeler`
-module from console).
+* Class 1: from -1.0 to 0.2
+* Class 2: from 0.2 to 0.6
+* Class 3: from 0.6 to 1.0
 
-.. figure:: ../images/units/08/gmodeler.png
+The desired output will be a vector map with NDVI classes. Let's also
+eliminate small areas.
 
-   Graphical Modeler.
-   
-GRASS modules can be added to the model from menu
-:menuselection:`Model --> Add command` or by |grass-module-add|
-:sup:`Add command (GRASS module) to the model` from the main toolbar.
+Workflow:
 
-.. figure:: ../images/units/08/add-module.png
-   :class: small
-   
-   Add command (GRASS module) to the model, in this case :grasscmd:`r.mask`.
+#. Erase cloud mask in input region (:grasscmd:`v.overlay`: ``not`` operator)
+#. Set computation region based on modified input region (:grasscmd:`g.region`)
+#. Set mask (:grasscmd:`r.mask`)
+#. Compute NDVI values (:grasscmd:`i.vi`)
+#. Reclassify NDVI values into classes (:grasscmd:`r.recode`)
+#. Set a reasonable color table for raster map classes (:grasscmd:`r.colors`)
+#. Convert raster classes into vector areas (:grasscmd:`r.to.vect`)
+#. Remove small areas (join them with adjacent areas by :grasscmd:`v.clean`)
 
-After adding :grasscmd:`r.mask` module to the model let's open its
-properties dialog by double-click and enter vector map to be used as a
-mask. Don't forget to enable inverse mask by :param:`-i` flag.
+Overview of corresponding commands:
 
-.. figure:: ../images/units/08/module-props.png
-   :class: middle
-   
-   Define parameters for :grasscmd:`r.mask`, a vector map used for
-   creating a mask.
+.. code-block:: bash
 
-In similar way will be added to the model the second command
-:grasscmd:`i.vi` (properties dialog for this command is open
-automatically because there are required options which must be set).
+   g.region vector=region_mask align=L2A_T32UPB_20170706T102021_B04_10m
+   r.mask vector=region_mask
+   i.vi red=L2A_T32UPB_20170706T102021_B04_10m output=ndvi nir=L2A_T32UPB_20170706T102021_B08_10m
+   r.recode input=ndvi output=ndvi_class rules=reclass.txt
+   r.colors map=ndvi_class rules=colors.txt
+   r.to.vect -s -v input=ndvi_class output=ndvi_class type=area
+   v.clean input=ndvi_class output=ndvi_vector tool=rmarea threshold=1600
 
-.. figure:: ../images/units/08/model-v1.png
+At the end NDVI zonal statistics for each class will be computed:
 
-   NDVI model version 1.
+* zonal statistics can be computed by :grasscmd:`v.rast.stats` and
+  stored in attribute table
+* attributes can be printed by :grasscmd:`v.db.select`
 
-It's a good idea to set metadata for the model and enable overwriting
-data produced by model (:menuselection:`Model --> Model properties`).
+Let's define input and output parameters of the script:
 
-.. figure:: ../images/units/08/model-v1-props.svg
-   :class: small
-   
-   Define model properties and enable overwriting data produced by
-   model.
+* :param:`b4` - Name of input 4th band space time raster dataset (line
+  :lcode:`19`)
+* :param:`b8` - Name of input 8th band space time raster dataset (line
+  :lcode:`23`)
+* :param:`clouds` - Name of the input mask (region+clouds) space time raster dataset
+  (line :lcode:`27`)
+* :param:`clouds` - Name for output stats file (line :lcode:`30`)
+* :param:`basename` - Basename for output raster maps (line
+  :lcode:`33`)
+* :param:`threshold` - Threshold for removing small areas (line
+  :lcode:`38`)
 
-.. figure:: ../images/units/08/model-v1-req-display.png
-   
-   Set the output raster map to be automatically displayed in the map
-   window.
-   
-Now let's run our model by |grass-execute| :sup:`Run model`. Progress
-is printed into :item:`Command output`.
+.. _temporal-api:
 
-.. figure:: ../images/units/08/model-v1-output.png
+List on functions used from :grasscmd2:`GRASS GIS Temporal Framework
+<libpython/temporal_framework.html>` Python API:
 
-   Model computation progress.
+* initialization must be done by :grasscmd2:`init
+  <libpython/temporal.html#temporal.core.init>` function, see line
+  :lcode:`138`
+* space time datasets are open on lines :lcode:`140-142` by
+  :grasscmd2:`open_old_stds
+  <libpython/temporal.html#temporal.open_stds.open_old_stds>`
+* raster maps registered in reference dataset (b4) are listed on line
+  :lcode:`146` by :grasscmd2:`get_registered_maps
+  <libpython/temporal.html#temporal.abstract_space_time_dataset.AbstractSpaceTimeDataset.get_registered_maps>`
+* related raster maps in two other datasets (b8, cl) are searched on
+  lines :lcode:`149-152` by :grasscmd2:`get_registered_maps
+  <libpython/temporal.html#temporal.abstract_space_time_dataset.AbstractSpaceTimeDataset.get_registered_maps>`
+  with ``where`` parameter
 
-.. figure:: ../images/units/08/model-v1-display.png
-   :class: middle
-   
-   New NDVI raster map computed by the modeler.
+.. literalinclude:: ../_static/scripts/ndvi-tgrass-v1.py
+   :language: python
+   :linenos:
+   :emphasize-lines: 19, 23, 27, 30, 33, 38, 138, 140-142, 146, 149-152
 
-Run the model repeatedly on different computation regions.
+Sample script to download: `ndvi-tgrass-v1.py
+<../_static/scripts/ndvi-tgrass-v1.py>`__
+      
+Example of usage:
 
-.. tip:: Current computation region can be change easily by *Set
-   computation region extent interactively* from |grass-zoom-more|
-   :sup:`Various zoom options` in Map Display.
+.. code-block:: bash
 
-.. figure:: ../images/units/08/model-v1-region.png
+   ndvi-tgrass.py b4=b4 b8=b8 mask=clouds basename=ndvi out=stats.txt
 
-   Change computation region before running the modeler.
+Possible output:
 
-.. important:: Before changing the region it's a good idea to remove mask if
-   exists.
+::
 
-   .. code-block:: bash
-
-      r.mask -r
-
-Sample model to download: `ndvi-v1.gxm <../_static/models/ndvi-v1.gxm>`__
+   --------------------------------------------------------------------------------
+   NDVI class statistics (ndvi_1: 2019-04-07 10:20:21)
+   --------------------------------------------------------------------------------
+   NDVI class 1: 182.4 ha
+   NDVI class 2: 4923.4 ha
+   NDVI class 3: 6330.2 ha
+   NDVI class 1: -0.2073 (min) 0.4915 (max) 0.0554 (mean)
+   NDVI class 2: -0.2380 (min) 0.9989 (max) 0.3736 (mean)
+   NDVI class 3: -0.4533 (min) 0.9988 (max) 0.6468 (mean)
+   ...
+   --------------------------------------------------------------------------------
+   NDVI class statistics (ndvi_7: 2019-10-14 10:20:31)
+   --------------------------------------------------------------------------------
+   NDVI class 1: 163.4 ha
+   NDVI class 2: 2669.2 ha
+   NDVI class 3: 8603.6 ha
+   NDVI class 1: -0.2253 (min) 0.7481 (max) 0.0457 (mean)
+   NDVI class 2: -1.0000 (min) 0.9994 (max) 0.2999 (mean)
+   NDVI class 3: -0.9978 (min) 0.9994 (max) 0.6992 (mean)
