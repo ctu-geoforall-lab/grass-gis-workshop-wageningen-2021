@@ -59,7 +59,7 @@ maps (:grasscmd:`t.rast.list`).
 NDVI ST computation
 -------------------
 
-For NDVI computation 4th and 8th bands are required (:doc:`05`). Map
+For NDVI computation 4th and 8th bands are required (:doc:`06`). Map
 algebra is performed in the case of spatio-temporal data by
 :grasscmd:`t.rast.mapcalc` which requires data separated into
 spatio-temporal datasets (see example in :doc:`22`). Such datasets can
