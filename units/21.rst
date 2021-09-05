@@ -17,6 +17,8 @@ time series data:
 
 Import Sentinel scenes
 ----------------------
+
+.. todo:: move to u20
           
 Create a new mapset in *odse_sentinel* location, eg. *t-ndvi*
 (:menuselection:`Settings --> GRASS working enviroment --> Create new
