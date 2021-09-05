@@ -40,6 +40,14 @@ be installed.
 	
       python3 -m pip install sentinelsat
 
+Download data
+-------------
+
+.. important:: Pre-downloaded Sentinel scenes are available in `sample
+   dataset
+   <https://geo.fsv.cvut.cz/geoharmonizer/odse_workshop_2021/t34sgh_20_60m.zip>`__. Participants
+   can continue with :ref:`importing sample data <sentinel-import>`.
+
 Let's download suitable Sentinel products for our area of interest
 (AOI) and perform NDVI calculation. AOI region is defined by
 :map:`tile_5606_1km` created in :doc:`05`.
@@ -68,32 +76,30 @@ password).
 
 ::
 
-   12 Sentinel product(s) found
-   df8f6ae3-7391-44a2-a0a7-74e98e4ef993 ... 2020-01-02T10:24:21Z  2% S2MSI2A
-   bac67916-813e-4161-82a9-110f528511c3 ... 2020-01-17T10:22:49Z  7% S2MSI2A
-   df6de236-ede3-4d12-befb-2700df6c65e2 ... 2020-02-11T10:21:41Z 49% S2MSI2A
+   24 Sentinel product(s) found
+   99389c4b-65d8-40ce-b32b-91cd42dba4af ... 2021-07-29T09:05:59Z  0% S2MSI2A
+   118b5ede-78d6-4ccf-8c7e-bd3b83f0a4e8 ... 2021-07-29T09:05:59Z  0% S2MSI2A
+   dc2fcffa-da81-4bfe-bb99-88cc8dde1ea7 ... 2021-08-03T09:06:01Z  1% S2MSI2A
    ...
-
-.. todo:: update command below
 
 By default the module returns products for last 60 days. Let's change
 search period by :param:`start` and :param:`end` options. We will also
-limit products by :param:`clouds` coverage percentage threshold.
+limit products by :param:`clouds` coverage percentage threshold. Sort
+product by sort ingestion date.
        
 .. code-block:: bash
                 
-   i.sentinel.download -l map=tile_5606_1km producttype=S2MSI2A settings=sentinel.txt start=2021-04-01 end=2021-08-31 clouds=5
+   i.sentinel.download -l map=tile_5606_1km producttype=S2MSI2A settings=sentinel.txt \
+   start=2021-04-01 end=2021-08-31 clouds=5 sort=ingestiondate
 
 ::
 
-   6 Sentinel product(s) found
-   a0ae6f58-4890-4382-bbd8-571874bfc65e ... 2019-06-26T10:20:31Z  1% S2MSI2A
-   caa11e7b-454d-4301-86b9-4c11659cc8a1 ... 2019-04-17T10:20:31Z  3% S2MSI2A
-   31ad53f4-146a-41a8-bce6-d9e99dfd7f66 ... 2019-04-22T10:20:29Z  3% S2MSI2A
+   26 Sentinel product(s) found
+   901763e0-f592-4eb8-8f51-036ee2fa5665 ... 2021-04-30T09:05:49Z  4% S2MSI2A
+   ab66170a-f2d5-4d21-a0ce-5412a0043fd3 ... 2021-05-10T09:05:49Z  1% S2MSI2A
+   431da3a0-56d2-452c-bb0f-8d05b55969a9 ... 2021-05-10T09:05:49Z  1% S2MSI2A
    ...
    
-.. todo:: update command below
-
 .. tip:: If more products have been found you can limit search by
    :param:`limit` option.
 
@@ -105,47 +111,75 @@ where data should be saved.
 
    i.sentinel.download map=tile_5606_1km producttype=S2MSI2A settings=sentinel.txt \
    start=2021-04-01 end=2021-08-31 clouds=5 \
-   limit=1 output=/data/sentinel
-   
-.. note:: Pre-downloaded Sentinel scene is available in sample
-   dataset:
-   
-   :file:`geodata/sentinel/2019/S2A_MSIL2A_20190626T102031_N0212_R065_T32UPB_20190626T125319.SAFE`.
+   output=/data/sentinel
 
-.. todo:: update link
-          
+Import data
+-----------
+
+.. _sentinel-import:
+
 Before importing or linking Sentinel data try to print list of
 filtered raster files including projection match (second column 1 for
 match otherwise 0). If CRS of input data differs from current location
 consider reprojection (:param:`-r`) or creating a new location for
-import. To avoid re-projecting Sentinel data we will create a new
-location (see :ref:`create-location`) defined by :epsg:`?`.
+import.
+
+.. important:: To avoid re-projecting Sentinel data we will create a
+   new location (see :ref:`create-location`) defined by :epsg:`32634`.
+
+.. figure:: ../images/units/20/sentinel-new-loc.png
+
+   New location *odse_sentinel_2021*.
 
 Data will be imported into the new location by
 :grasscmdaddons:`i.sentinel.import` tool. The command will import
 **all** Sentinel bands from :param:`input` directory
-recursively. Sentinel bands to be imported can be optionally filtered
-by :param:`pattern` option. Before import the pattern can be checked
-by :param:`-p` flag.
+recursively. Before importing data let's check content of the input
+directory by :param:`-p` flag.
 
 .. code-block:: bash
  
-   i.sentinel.import -p input=/data/odse_workshop_2021/sentinel pattern="20190626T102031_B0(4|8)_10m"
+   i.sentinel.import -p input=/home/odse/Downloads/t34sgh_20_60m 
 
    ::
 
-      ...L2A_T32UPB_A020940_20190626T102028/IMG_DATA/R10m/T32UPB_20190626T102031_B08_10m.jp2 1 (EPSG: 32632)
-      ...L2A_T32UPB_A020940_20190626T102028/IMG_DATA/R10m/T32UPB_20190626T102031_B04_10m.jp2 1 (EPSG: 32632)
+      .../R20m/T34SGH_20210828T090549_B03_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210828T090549_B04_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210828T090549_B8A_20m.jp2 0 (EPSG: 32634)
+      ...
+      
+In example below import procedure will be limited to 4th and 8th bands
+in 60m by :param:`pattern` option.
 
-In example above 4th and 8th bands in 10m resolution will be
-imported. By default input data are imported into GRASS data format,
+.. code-block:: bash
+ 
+   i.sentinel.import -p input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_60m"
+
+   ::
+
+      .../R60m/T34SGH_20210828T090549_B8A_60m.jp2 0 (EPSG: 32634)
+      .../R60m/T34SGH_20210828T090549_B04_60m.jp2 0 (EPSG: 32634)
+      .../R60m/T34SGH_20210624T090601_B04_60m.jp2 0 (EPSG: 32634)
+      .../R60m/T34SGH_20210624T090601_B8A_60m.jp2 0 (EPSG: 32634)
+      .../R60m/T34SGH_20210729T090559_B04_60m.jp2 0 (EPSG: 32634)
+      .../R60m/T34SGH_20210729T090559_B8A_60m.jp2 0 (EPSG: 32634)
+
+By default input data are imported into GRASS data format,
 alternatively data can be linked if :param:`-l` is given. It is also
 useful to import cloud mask vector features by :param:`-c` flag.
 
 .. code-block:: bash
 
-   i.sentinel.import -l -c input=/data/odse_workshop_2021/sentinel pattern="20190626T102031_B0(4|8)_10m"
+   i.sentinel.import -l -c input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_60m"
 
+Lets copy our AOI (:map:`tile_5606_1km`) from *odse_workshop_2021*
+location as described in :ref:`copy-map`.
+
+.. figure:: ../images/units/20/display-band-4.png
+
+   Visualization of 4th band. :ref:`Color table <color-table>` set to
+   ``grey.eq`` (don't forget to set up computational 
+   
 Computing NDVI
 --------------
 

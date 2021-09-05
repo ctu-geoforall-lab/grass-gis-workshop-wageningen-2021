@@ -31,6 +31,8 @@ from the toolbar |grass-vector-import| :sup:`Import vector data
    Imported vector data is automatically displayed in the *Map Display*
    window. Progress of import is shown in the :item:`Console` tab.
 
+.. _copy-map:
+
 Let's copy into the current location a world map from the default location
 for a better feeling.
 
