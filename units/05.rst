@@ -59,7 +59,9 @@ compute curvatures and partial derivatives.
 .. figure:: ../images/units/05/slope.png
    :class: middle
            
-   Slope computed from DTM in the current computational region.
+   Slope computed from DTM in the current computational region. Simple
+   legend can be added to map display by |grass-overlay-add| :sup:`Add
+   map elements` (*Add raster legend*) from Map Display toolbar.
 
 Working with a mask
 -------------------

@@ -1,8 +1,6 @@
 [Part 2] Accessing Sentinel EO data
 ===================================
 
-.. todo:: TO BE UPDATED
-          
 There are plenty of libraries or tools which allows downloading
 Sentinel products from `Copernicus Open Access Hub
 <https://scihub.copernicus.eu/>`__.
@@ -149,20 +147,20 @@ directory by :param:`-p` flag.
       ...
       
 In example below import procedure will be limited to 4th and 8th bands
-in 60m by :param:`pattern` option.
+in 20m by :param:`pattern` option.
 
 .. code-block:: bash
  
-   i.sentinel.import -p input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_60m"
+   i.sentinel.import -p input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_20m"
 
    ::
 
-      .../R60m/T34SGH_20210828T090549_B8A_60m.jp2 0 (EPSG: 32634)
-      .../R60m/T34SGH_20210828T090549_B04_60m.jp2 0 (EPSG: 32634)
-      .../R60m/T34SGH_20210624T090601_B04_60m.jp2 0 (EPSG: 32634)
-      .../R60m/T34SGH_20210624T090601_B8A_60m.jp2 0 (EPSG: 32634)
-      .../R60m/T34SGH_20210729T090559_B04_60m.jp2 0 (EPSG: 32634)
-      .../R60m/T34SGH_20210729T090559_B8A_60m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210828T090549_B8A_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210828T090549_B04_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210624T090601_B04_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210624T090601_B8A_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210729T090559_B04_20m.jp2 0 (EPSG: 32634)
+      .../R20m/T34SGH_20210729T090559_B8A_20m.jp2 0 (EPSG: 32634)
 
 By default input data are imported into GRASS data format,
 alternatively data can be linked if :param:`-l` is given. It is also
@@ -170,13 +168,14 @@ useful to import cloud mask vector features by :param:`-c` flag.
 
 .. code-block:: bash
 
-   i.sentinel.import -l -c input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_60m"
+   i.sentinel.import -l -c input=/home/odse/Downloads/t34sgh_20_60m pattern="B(04|8A)_20m"
 
 Lets copy our AOI (:map:`tile_5606_1km`) from *odse_workshop_2021*
 location as described in :ref:`copy-map`.
 
 .. figure:: ../images/units/20/display-band-4.png
-
+   :class: large
+           
    Visualization of 4th band. :ref:`Color table <color-table>` set to
    ``grey.eq`` (don't forget to set up computational 
    
@@ -191,16 +190,24 @@ channels are required. In the case of Sentinel-2, it refers to 4th and
         
    NDVI = (NIR - VIS) / (NIR  + VIS)
 
+Before computing let's set up computational region based on whole
+Sentinel scene.
+
+.. code-block:: bash
+
+   g.region raster=T34SGH_20210624T090601_B04_20m
+
 NDVI can be computed by :grasscmd:`i.vi` tool which allows computing
 various vegetation indices.
 
 .. code-block:: bash
 
-   i.vi red=B04_10m output=ndvi viname=ndvi nir=B08_10m
+   i.vi red=T34SGH_20210624T090601_B04_20m output=ndvi viname=ndvi nir=T34SGH_20210624T090601_B8A_20m
 
-Let's mask cloudy areas by a mask already provided by Sentinel
-product. Note that masking as other raster processing is performed
-only within the current computation region, see :doc:`04`.
+Let's mask cloudy areas by a mask created by
+:grasscmdaddons:`i.sentinel.import`. Note that masking as other raster
+processing is performed only within the current computation region,
+see :doc:`04`.
 
 ..
    .. figure:: ../images/units/05/r-mask.png
@@ -209,20 +216,9 @@ only within the current computation region, see :doc:`04`.
    
 .. code-block:: bash
 
-   r.mask -i vector=MaskFeature
+   r.mask vector=T34SGH_20210624T090601_MSK_CLOUDS -i
    
-.. note:: Cloud mask provided by Sentinel products is not perfect, but
-   it is a good starting point for us. Consider to use
-   :grasscmdaddons:`i.sentinel.mask` or Fmask tools.
-
-.. todo:: link to fmask
-
-.. tip:: Also a simple legend can be added to map display by
-   |grass-overlay-add| :sup:`Add map elements` (*Add raster legend*)
-   from Map Display toolbar.
-
-   ..
-      .. figure:: ../images/units/05/ndvi-vi.png
-         :class: middle
-
-         Final NDVI product with cloud mask applied with simple legend.
+.. figure:: ../images/units/20/ndvi-legend.png
+   :class: middle
+           
+   Final NDVI product with cloud mask applied with a legend.
