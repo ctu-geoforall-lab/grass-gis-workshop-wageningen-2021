@@ -14,7 +14,7 @@ computing univariate statistics by :grasscmd:`r.univar` module.
    r.univar map=dtm_5606
 
 The module computes statistics from input data located in the current
-computation region.
+computational region.
 
 ::
 
@@ -48,10 +48,10 @@ interactively`.
 Computing DTM derivates
 -----------------------
 
-Let's set up computational region back to our :ref:`area of interest
+Let's set up the computational region back to our :ref:`area of interest
 <aoi>`. Computation of slope or aspect from DTM is a well known
 "discipline" in GIS. This functionality in GRASS is provided by
-:grasscmd:`r.slope.aspect`. Beside slope or aspect the tool can also
+:grasscmd:`r.slope.aspect`. Besides slope or aspect, the tool can also
 compute curvatures and partial derivatives.
 
 .. code-block:: bash
@@ -66,11 +66,11 @@ compute curvatures and partial derivatives.
 Working with a mask
 -------------------
 
-Raster mask can be created by :grasscmd:`r.mask`. As other modules
-from ``r.*`` family it operates in the current computation region.
+Raster mask can be created by :grasscmd:`r.mask`. Like other modules
+from ``r.*`` family, it operates in the current computational region.
 
-Let's create mask defined by 10km buffer around highways. The highways
-data :file:`highways.gpkg` can be imported similarly as explain in
+Let's create a mask defined by a 10km buffer around highways. The highways
+data :file:`highways.gpkg` can be imported similarly as explained in
 :doc:`03`.
 
 .. note:: CRS of highways (:epsg:`4326`) differs from location CRS
@@ -99,7 +99,7 @@ Map algebra
 The key GRASS module which allows a user to map algebra is
 :grasscmd:`r.mapcalc`. A GUI tool for map algebra can be launched from
 :menuselection:`Raster --> Raster map calculator` or by
-|grass-raster-calculator| :sup:`Raster map calculator` from a main
+|grass-raster-calculator| :sup:`Raster map calculator` from the main
 toolbar.
 
 .. figure:: ../images/units/05/r-mapcalc-gui.png
@@ -125,8 +125,8 @@ Graphical Modeler
 ~~~~~~~~~~~~~~~~~
 
 **Graphical Modeler** allows creating, editing, and managing complex
-models in easy-to-use graphical user interface. Using Graphical
-Modeler a chain of tool (ie. GRASS modules) can be wrapped
+models in an easy-to-use graphical user interface. Using Graphical
+Modeler, a chain of tools (ie. GRASS modules) can be wrapped
 into one process (a model). A model can be executed repeatedly with
 slightly different inputs or parameters.
 
