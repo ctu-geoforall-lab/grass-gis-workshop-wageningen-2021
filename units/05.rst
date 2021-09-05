@@ -1,8 +1,6 @@
 [Part 1] Raster processing
 ==========================
 
-.. todo:: TO BE UPDATED
-
 Raster data processing is always performed in the current
 :ref:`computational region <region>`. Let's demonstrate it on
 computing univariate statistics by :grasscmd:`r.univar` module.
@@ -99,14 +97,26 @@ Map algebra
 -----------
 
 The key GRASS module which allows a user to map algebra is
--:grasscmd:`r.mapcalc`. A GUI tool for map algebra can be launched
-from :menuselection:`Raster --> Raster map calculator` or by
+:grasscmd:`r.mapcalc`. A GUI tool for map algebra can be launched from
+:menuselection:`Raster --> Raster map calculator` or by
 |grass-raster-calculator| :sup:`Raster map calculator` from a main
 toolbar.
 
+.. figure:: ../images/units/05/r-mapcalc-gui.png
+   :class: middle
+           
+   GUI map algebra tool.
+
+Corresponding command:
+
 .. code-block:: bash
 
-   r.mapcalc expression="x = if(dtm_5606 > 1000 && slope_aoi > 40, dtm_5606)"
+   r.mapcalc expression="dtm_slope = if(dtm_5606 > 500 && slope_aoi > 10, dtm_5606)"
+
+.. figure:: ../images/units/05/r-mapcalc-result.png
+   :class: middle
+           
+   Result of map algebra command.
 
 Automatization
 --------------
