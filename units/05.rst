@@ -1,7 +1,7 @@
 [Part 1] Raster processing
 ==========================
 
-Raster data processing is always performed in the current
+Raster data processing is always limited to the current
 :ref:`computational region <region>`. Let's demonstrate it on
 computing univariate statistics by :grasscmd:`r.univar` module.
 
@@ -27,13 +27,11 @@ computational region.
    minimum: 0
    maximum: 1395
 
-Let's change computational region interactively from Map Display
-|grass-zoom-menu| :sub:`Set computational region extent
-interactively`.
+Let's change the computational region interactively from the Map Display.
 
 .. figure:: ../images/units/05/set-region-interactively.png
 
-   Set computational region extent interactively.
+   Set the computational region extent interactively.
 
 ::
 
@@ -50,7 +48,7 @@ Computing DTM derivates
 
 Let's set up the computational region back to our :ref:`area of interest
 <aoi>`. Computation of slope or aspect from DTM is a well known
-"discipline" in GIS. This functionality in GRASS is provided by
+"discipline" in GIS. This functionality is provided in GRASS GIS by
 :grasscmd:`r.slope.aspect`. Besides slope or aspect, the tool can also
 compute curvatures and partial derivatives.
 
@@ -96,7 +94,7 @@ data :file:`highways.gpkg` can be imported similarly as explained in
 Map algebra
 -----------
 
-The key GRASS module which allows a user to map algebra is
+The key GRASS module that allows a user to do the map algebra is
 :grasscmd:`r.mapcalc`. A GUI tool for map algebra can be launched from
 :menuselection:`Raster --> Raster map calculator` or by
 |grass-raster-calculator| :sup:`Raster map calculator` from the main
