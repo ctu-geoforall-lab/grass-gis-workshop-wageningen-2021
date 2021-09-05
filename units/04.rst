@@ -6,18 +6,18 @@
 Accessing GRASS modules
 -----------------------
 
-GRASS GIS is a **modular system** which consists of several hundreds
+GRASS GIS is a **modular system** that consists of several hundred
 *tools* (called "modules"). Modules are accessible from the Layer
-Manager menu, :item:`Modules` tab, or from command prompt
+Manager menu, :item:`Modules` tab, or from the command prompt
 (:item:`Console` tab).
 
-Let's find a tool which create 1km *buffer* around selected tile.
+Let's find a tool that creates a 1km *buffer* around the selected tile.
 
 .. figure:: ../images/units/04/modules-tab.png
 
    Searching module in Layer Manager by 'buffer' keyword. The module
    which we are looking for is :grasscmd:`v.buffer`. Module dialog can
-   be open by :item:`Run` button.
+   be open by the :item:`Run` button.
    
 .. note::
 
@@ -38,8 +38,8 @@ Let's find a tool which create 1km *buffer* around selected tile.
                     
    GUI dialog for launching :grasscmd:`v.buffer` module.
 
-.. tip:: CLI syntax of modules is shown in GUI dialog statusbar, see
-   :numref:`v-buffer`. Command can be copied to clipboard by
+.. tip:: CLI syntax of modules is shown in the GUI dialog status bar, see
+   :numref:`v-buffer`. The command can be copied to the clipboard by the
    :item:`Copy` button for later usage.
 
 The corresponding command for console would be:
@@ -52,7 +52,7 @@ The corresponding command for console would be:
 
    Buffer of 1km around selected tile.
 
-Each GRASS command starts by a prefix. This prefix groups modules into
+Each GRASS command starts with a prefix. This prefix groups modules into
 several sections, see table below.
   
 .. cssclass:: border
@@ -84,7 +84,7 @@ several sections, see table below.
 Computational region
 --------------------
 
-Computation region is a **key issue** in GRASS raster
+The computation region is a **key issue** in GRASS raster
 processing. Unlike GIS software like Esri ArcGIS which sets
 computation region based on input data, GRASS is leaving this
 operation to the user.
@@ -93,7 +93,7 @@ operation to the user.
    raster computation is performed!**
 
 Computational region is defined by *extent* (north, south, east, west)
-and by *spatial resolution* in the both directions (east-west,
+and by *spatial resolution* in both directions (east-west,
 north-south). Note that GRASS supports only regular grids.
 
 .. figure:: ../images/units/04/region2d.png
@@ -101,28 +101,28 @@ north-south). Note that GRASS supports only regular grids.
    2D computation region grid.
 
 .. note:: For 3D raster data (known as "volumes") there is an
-   extension to 3D computation grid.
+   extension to the 3D computation grid.
 
-Majority of raster processing GRASS modules (``r.*``) respect
+The majority of raster processing GRASS modules (``r.*``) respect
 computational region, there are a few exceptions like import modules
-(eg. :grasscmd:`r.import`). On the other hand, the most of vector
-processing modules (``v.*``) ignore computation region completely
+(eg. :grasscmd:`r.import`). On the other hand, most vector
+processing modules (``v.*``) ignore the computation region completely
 since there is no computation grid defined by them.
 
-Computational region can be easily set on existing raster or vector
+The computational region can be easily set on existing raster or vector
 map from Layer Manager.
 
 .. figure:: ../images/units/04/comp-region-raster.png
 
    Set computational region from raster map.
 
-Note that when setting up computational region from vector map, only
-extent is adjusted. It's good idea to align the computational grid
-based on raster map used for computation (*Align computational region
+Note that when setting up the computational region from vector map, only
+the extent is adjusted. It's a good idea to align the computational grid
+based on the raster map used for computation (*Align computational region
 to selected map*).
           
 .. note:: Computation region extent is visualized in map display by
-   red rectangle.
+   the red rectangle.
 
 Full flexibility for operating with computation region allows
 :grasscmd:`g.region` module (:menuselection:`Settings --> Computational
@@ -139,11 +139,11 @@ region --> Set region`). Example below:
 Color table
 -----------
 
-Color table can be changed by :grasscmd:`r.colors` command. Let's sets
-color for raster map :map:`dtm_5606` to *elevation* color table which
-is suitable for digital terrain models.
+The color table can be changed by the :grasscmd:`r.colors` command. Let's set
+the color for raster map :map:`dtm_5606` to the *elevation* color table
+suitable for digital terrain models.
 
-Color table can be easily set also from GUI in :item:`Display` tab.
+The color table can be also easily set from the GUI in the :item:`Display` tab.
 
 .. figure:: ../images/units/04/r-colors-menu.png
    
@@ -155,9 +155,9 @@ Color table can be easily set also from GUI in :item:`Display` tab.
             
 .. figure:: ../images/units/04/r-colors.png
 
-   Choose predefined 'elevation' color table in :item:`Define` tab.
+   Choose the predefined 'elevation' color table in the :item:`Define` tab.
    
 .. figure:: ../images/units/04/colors-changed.png
    :class: large
    
-   DTM with elevation color table.
+   DTM with the elevation color table.
