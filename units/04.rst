@@ -84,12 +84,12 @@ several sections, see table below.
 Computational region
 --------------------
 
-The computation region is a **key issue** in GRASS raster
+The computational region is a **key issue** in GRASS raster
 processing. Unlike GIS software like Esri ArcGIS which sets
-computation region based on input data, GRASS is leaving this
+computational region based on input data, GRASS is leaving this
 operation to the user.
 
-.. important:: **The user must define computation region before any
+.. important:: **The user must define computational region before any
    raster computation is performed!**
 
 Computational region is defined by *extent* (north, south, east, west)
@@ -98,7 +98,7 @@ north-south). Note that GRASS supports only regular grids.
 
 .. figure:: ../images/units/04/region2d.png
               
-   2D computation region grid.
+   2D computational region grid.
 
 .. note:: For 3D raster data (known as "volumes") there is an
    extension to the 3D computation grid.
@@ -106,7 +106,7 @@ north-south). Note that GRASS supports only regular grids.
 The majority of raster processing GRASS modules (``r.*``) respect
 computational region, there are a few exceptions like import modules
 (eg. :grasscmd:`r.import`). On the other hand, most vector
-processing modules (``v.*``) ignore the computation region completely
+processing modules (``v.*``) ignore the computational region completely
 since there is no computation grid defined by them.
 
 The computational region can be easily set on existing raster or vector
@@ -124,7 +124,7 @@ to selected map*).
 .. note:: Computation region extent is visualized in map display by
    the red rectangle.
 
-Full flexibility for operating with computation region allows
+Full flexibility for operating with computational region allows
 :grasscmd:`g.region` module (:menuselection:`Settings --> Computational
 region --> Set region`). Example below:
 
