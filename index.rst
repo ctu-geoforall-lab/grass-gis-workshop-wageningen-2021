@@ -16,13 +16,13 @@ Software used in this training materials
 * `sentinelsat library <https://pypi.python.org/pypi/sentinelsat>`__
   utility to search and download Copernicus Sentinel satellite images.
 
-Sample dataset
-==============
+Sample data
+===========
 
-For purpose of this training materials a sample dataset has been
-created based on Open Data covering ODSE pilot tiles.
-
-.. todo:: add URL
+For purpose of this training materials a `sample data including GRASS
+8 binaries
+<https://geo.fsv.cvut.cz/geoharmonizer/odse_workshop_2021/grass-gis-data.zip>`__ (690MB)
+has been created based on Open Data covering ODSE pilot tiles.
           
 Content
 =======
@@ -54,6 +54,10 @@ Lecturer
 
 * `Martin Landa <http://geo.fsv.cvut.cz/gwiki/Landa>`__, GeoForAll
   Lab, Czech Technical University in Prague, Czech Republic
+
+Thanks to Veronica Andreo (Instituto de Altos Estudios Espaciales
+"Mario Gulich" - CONICET) and Ondřej Pešek (CTU in Prague) for the
+contribution!
 
 License
 =======
