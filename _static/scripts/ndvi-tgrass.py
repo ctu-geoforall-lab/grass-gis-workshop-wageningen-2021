@@ -37,7 +37,7 @@
 #%option
 #% key: threshold
 #% description: Threshold for removing small areas
-#% answer: 1600
+#% answer: 1200
 #%end
 
 import sys
@@ -45,7 +45,7 @@ import os
 import atexit
 
 from grass.pygrass.modules import Module
-from grass.script import parser
+from grass.script import parser, parse_key_val
 from grass.script.vector import vector_db_select
     
 def cleanup():
@@ -81,28 +81,27 @@ def compute(b4, b8, msk, output):
            rules = "-",
            stdin_ = recode_str)
 
+    Module("r.reclass.area",
+           overwrite = True,
+           input = "ndvi_class",
+           output = "ndvi_class2",
+           mode = "greater",
+           value = int(options["threshold"]) / 10000)
+
+    Module("r.grow.distance",
+           overwrite = True,
+           input = "ndvi_class2",
+           value = output)
+
     colors_str="""1 grey
 2 255 255 0
 3 green"""
     Module("r.colors",
-           map = "ndvi_class",
+           map = output,
            rules = "-",
            stdin_ = colors_str)
     
-    Module("r.to.vect",
-           flags = 'sv',
-           overwrite = True,
-           input = "ndvi_class",
-           output = "ndvi_class",
-           type = "area")
-
-    Module("v.clean",
-           overwrite = True,
-           input = "ndvi_class",
-           output = output,
-           tool = "rmarea",
-           threshold = options['threshold'])
-
+    
 def stats(output, date, fd):
     fd.write('-' * 80)
     fd.write(os.linesep)
@@ -110,27 +109,10 @@ def stats(output, date, fd):
     fd.write(os.linesep)
     fd.write('-' * 80)
     fd.write(os.linesep)
-    from subprocess import PIPE
-    ret = Module('v.report', map=output, option='area',
-                 stdout_=PIPE)
-    for line in ret.outputs.stdout.splitlines()[1:]: # skip first line (cat|label|area)
-        # parse line (eg. 1||2712850)
-        data = line.split('|')
-        cat = data[0]
-        area = float(data[-1])
-        fd.write('NDVI class {0}: {1:.1f} ha'.format(cat, area/1e4))
-        fd.write(os.linesep)
-
-    # v.to.rast: use -c flag for updating statistics if exists
-    Module('v.rast.stats', flags='c', map=output, raster='ndvi',
-           column_prefix='ndvi', method=['minimum','maximum','average'])
-    
-    data = vector_db_select(output)
-    for vals in data['values'].values():
-        # unfortunately we need to cast values by float
-        fd.write('NDVI class {0}: {1:.4f} (min) {2:.4f} (max) {3:.4f} (mean)'.format(
-            vals[0], float(vals[2]), float(vals[3]), float(vals[4])))
-        fd.write(os.linesep)
+    fd.flush()
+    Module(
+        "r.report", map=output, units="hectares", flags="ihn", stdout_=fd
+    )
         
 def main():
     import grass.temporal as tgis
@@ -151,7 +133,7 @@ def main():
         ms = msk.get_registered_maps(columns='name',
                                      where="start_time = '{}'".format(date))[0][0]
         output = '{}_{}'.format(options['basename'], idx)
-        compute(b4, b8, ms, output)
+        # compute(b4, b8, ms, output)
         stats(output, date, fd)
         cleanup()
         idx += 1
