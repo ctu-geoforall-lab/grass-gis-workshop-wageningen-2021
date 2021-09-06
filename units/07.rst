@@ -18,8 +18,8 @@ time-series data:
 Create space-time dataset
 -------------------------
 
-At this moment a new space-time dataset can be created by
-:grasscmd:`t.create` and all imported Sentinel bands registered by
+At this moment a new space-time dataset can be created by means of
+:grasscmd:`t.create` and all imported Sentinel bands registered with
 :grasscmd:`t.register`.
 
 .. code-block:: bash
@@ -27,7 +27,7 @@ At this moment a new space-time dataset can be created by
    t.create output=s2_tile_5606 title="Sentinel L2A 2021" desc="Tile 5606"
    t.register input=s2_tile_5606 file=/home/odse/sentinel-timestamps.txt
 
-Let's check basic metadata (:grasscmd:`t.info`) and list of registered
+Let's check basic metadata (:grasscmd:`t.info`) and list the registered
 maps (:grasscmd:`t.rast.list`).
 
 .. code-block:: bash
@@ -60,8 +60,8 @@ NDVI ST computation
 -------------------
 
 For NDVI computation 4th and 8th bands are required (:doc:`06`). Map
-algebra is performed in the case of spatio-temporal data by
-:grasscmd:`t.rast.algebra` which requires data separated into
+algebra for spatio-temporal data is performed by :grasscmd:`t.rast.algebra`
+which requires bands separated into different
 spatio-temporal datasets (see example in :doc:`22`). Such datasets can
 be prepared by :grasscmd:`t.rast.extract`.
 
@@ -78,7 +78,7 @@ Let's check content of the new datasets by :grasscmd:`t.rast.list`.
    t.rast.list input=s2_b8
 
 ..
-   Set computational region by :grasscmd:`g.region` including mask for
+   Set computational region by :grasscmd:`g.region` including mask for the
    area of interest by :grasscmd:`r.mask`.
 
    .. code-block:: bash
@@ -96,14 +96,14 @@ performed in parallel (:param:`nproc`).
 .. tip:: GRASS 8 adds support for band references (see
    :grasscmd:`g.bands` for details). NDVI can be computed directly
    using :map:`s2_tile_5606` space-time dataset. No need for creating
-   extraction as described above.
+   time series subsets as described above.
 
    .. code-block:: bash
                    
       t.rast.mapcalc inputs=s2_tile_5606.S2_8A,s2_tile_5606.S2_4 output=ndvi basename=ndvi \
       expression="float(s2_tile_5606.S2_8A - s2_tile_5606.S2_4) / (s2_tile_5606.S2_8A + s2_tile_5606.S2_4)"
 
-When computation is finished *ndvi* color table can be by
+When computation is finished *ndvi* color table can be set with
 :grasscmd:`t.rast.colors`.
 
 .. code-block:: bash
@@ -113,7 +113,7 @@ When computation is finished *ndvi* color table can be by
 .. figure:: ../images/units/07/ndvi_1.png
    :class: large
 
-   Filtering produced NDVI products in :item:`Data` tab.
+   Filtering NDVI products by name within the :item:`Data` tab.
    
 .. figure:: ../images/units/07/simple-animation.gif
    :class: middle
@@ -124,13 +124,13 @@ When computation is finished *ndvi* color table can be by
 Cloud mask
 ^^^^^^^^^^
 
-Let's apply cloud mask on space-time dataset. At first, we will create
+Let's apply the cloud masks on our NDVI space-time dataset. At first, we will create
 a new space-time dataset containing computed raster masks. A sample
-Python script has been designed for this purpose below. Such mask can
-be created by :grasscmd:`r.mask`, see line :lcode:`30`. But in this
+Python script has been designed for this purpose below. Masks can
+be created with :grasscmd:`r.mask`, see line :lcode:`30`. But in this
 case, the mask should be kept for further usage. Note that
 :grasscmd:`r.mask` module produces a normal raster map with the unique name
-*MASK*. To disable a mask, it is enough to rename the *MASK* map by
+*MASK*. To disable a mask, it is enough to rename the *MASK* map with
 :grasscmd:`g.rename`, see line :lcode:`43`.
 
 .. literalinclude:: ../_static/scripts/sentinel-cloud-mask.py
@@ -145,8 +145,8 @@ Sample script to download: `sentinel-cloud-mask.py
 		
    sentinel-cloud-mask.py map=tile_5606_1km input=s2_b4 output=cloud-timestamps.txt
 
-Now we can create a new space-time dataset with raster cloud masks
-registered.
+Now we can create a new space-time dataset and register the raster cloud masks
+created before.
 
 .. code-block:: bash
 
@@ -166,8 +166,8 @@ Let's check maps registered in the new space-time dataset.
    T34SGH_20210729T090559_MSK_CLOUDS_tile_5606_1km|PERMANENT|2021-07-29 09:19:53.186492|None
    T34SGH_20210828T090549_MSK_CLOUDS_tile_5606_1km|PERMANENT|2021-08-28 09:19:49.080855|None
                 
-And apply modified expression for map algebra and set *ndvi* color
-table.
+We now apply the cloud masks map by map using :grasscmd:`t.rast.algebra` and set 
+*ndvi* color table.
 
 .. code-block:: bash
 
@@ -179,5 +179,5 @@ table.
 .. figure:: ../images/units/07/simple-animation-clouds.gif
    :class: middle
                     
-   Simple NDVI animation with clouds mask applied. Computation is limited
+   Simple NDVI animation with clouds masks applied. Computation is limited
    to AOI only.
