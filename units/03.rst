@@ -9,15 +9,15 @@ used :wikipedia:`GIS file formats` is required.
 
 .. note:: GRASS terminology differs from commonly used GIS
    packages. To avoid confusion let's focus on the most
-   important terms. The commonly used term "a layer" is called in
-   GRASS "a map". While the GRASS layer is a subset of features within
+   important terms. The commonly used term "a layer" is called "a map" 
+   GRASS. While the GRASS layer is a subset of features within
    one "map". So "GRASS raster map" can be treated as "a raster
    layer" in other GIS packages.
 
 Vector data
 -----------
 
-Let's import sample ODSE tiles (:file:`odse_tiles.gpkg`) vector data
+Let's import the sample ODSE tiles (:file:`odse_tiles.gpkg`) vector data
 from the toolbar |grass-vector-import| :sup:`Import vector data
 [v.import]`.
 
@@ -33,8 +33,8 @@ from the toolbar |grass-vector-import| :sup:`Import vector data
 
 .. _copy-map:
 
-Let's copy into the current location a world map from the default location
-for a better feeling.
+Let's copy the world map from the default location into the current location 
+for a better feeling of where tiles are geographically located.
 
 .. figure:: ../images/units/03/copy-0.png
                
@@ -43,13 +43,13 @@ for a better feeling.
 
 .. figure:: ../images/units/03/copy-1.png
 
-   Select the current location and mapset and paste already selected
+   Select the current location and mapset and paste the selected
    data.
 
 .. figure:: ../images/units/03/copy-2.png
 
-   Coordinate reference system of source (:epsg:`4326`) and target
-   (:epsg:`3035`) location is different. GRASS will re-project
+   Coordinate reference systems of source (:epsg:`4326`) and target
+   (:epsg:`3035`) locations are different. GRASS will re-project
    data. Let's keep the default value for the maximum segment length (10km).
 
 To display copied vector data go to the :item:`Data` tab, choose
@@ -80,7 +80,7 @@ double-click on layer).
 Raster data
 -----------
 
-Let's import sample ODSE tiles (:file:`dtm_5606.tif`) vector data
+Let's import sample ODSE tiles (:file:`dtm_5606.tif`) raster data
 from the toolbar |grass-raster-import| :sup:`Import raster data
 [r.import]`.
 
@@ -93,13 +93,13 @@ from the toolbar |grass-raster-import| :sup:`Import raster data
            
    Imported raster data is automatically displayed in the *Map Display*
    window. Progress of import is shown in the :item:`Console` tab.
-   The default color table is not perfect as you can see, color
+   The default color table is not perfect as you can see, but color
    interpretation will be enhanced in :ref:`Unit 04 <color-table>`.
 
 .. _raster-metadata:
   
-Basic raster metadata can be printed by :grasscmd:`r.info` or from
-Layer Manager.
+Basic raster metadata can be printed using :grasscmd:`r.info` or from
+the Layer Manager.
 
 .. figure:: ../images/units/03/raster-metadata.png
 
@@ -120,19 +120,19 @@ Notes
 -----
 
    
-.. important:: If a spatial reference system (SRS) of raster file
-   differs from GRASS location (:item:`Project match`) input raster
-   data is automatically reprojected into CRS of the current GRASS
-   location. Note that GRASS simply does not support on the fly
-   transformation for several reasons.
+.. important:: If the spatial reference system (SRS) of a raster file
+   differs from that of the GRASS location (:item:`Project match`), the
+   input raster data is automatically reprojected into the SRS of the 
+   current GRASS location. Note that GRASS simply does not support on the
+   fly transformation for several reasons.
 
 .. _import-no-srs:
 
 .. note:: In some cases, SRS of imported files can be missing or
-   invalid. GRASS reports this issue as *In case of no
+   invalid. GRASS reports this issue as: *In case of no
    significant differences in the projection definitions, use
    the -o flag to ignore them and use current location
-   definition.  Consider generating a new location from the
+   definition. Consider generating a new location from the
    input dataset using the 'location' parameter.*
 
    GRASS allows importing such files by overriding project check
@@ -146,7 +146,7 @@ Vector topology
 
 Let's take a closer look at vector metadata of imported administrative
 regions. Instead of "polygons" there are "areas" and other kinds of
-primitives (points, lines, boundaries, centroids, isles), see
+primitives (points, lines, boundaries, centroids, islands), see
 :numref:`vector-metadata`.
 
 .. _vector-metadata:
@@ -163,10 +163,10 @@ linestrings, polygons, ...) into the GRASS topological model.
    :class: middle
                     
    GRASS topological model with primitives (nodes, lines,
-   boundaries, centroids, areas, and isles).
+   boundaries, centroids, areas, and islands).
           
 Topological errors are checked and repaired by GRASS GIS when
-importing data, be aware of the :param:`snap` option of the
+importing vector data, be aware of the :param:`snap` option in 
 :grasscmd:`v.import` module. Topological errors impossible
 to be repaired automatically without user specification can be fixed using
 :grasscmd:`v.clean` module.
@@ -178,7 +178,7 @@ Linking external formats
 
 To avoid data duplication GRASS also allows linking raster data using
 :grasscmd:`r.external` (*Link external raster data*) and vector data
-by :grasscmd:`v.external` (*Link external vector data*).
+by means of :grasscmd:`v.external` (*Link external vector data*).
 
 .. figure:: ../images/units/03/link-data-menu.png
    :class: middle
@@ -187,5 +187,5 @@ by :grasscmd:`v.external` (*Link external vector data*).
 
 Linking data is mainly recommended when working with raster data such as
 large datasets of imagery data. GRASS can handle linked raster data
-similarly to native raster maps. Both from points of stability and
+similarly to native raster maps, both in terms of stability and
 accessibility.
