@@ -1,9 +1,9 @@
 [Part 2] Temporal Framework Python API
 ======================================
 
-GRASS offers Python API for :grasscmd2:`space-time processing
-<libpython/temporal_framework.html>`. The usage is presented on script
-described below.
+GRASS offers a Python API for :grasscmd2:`space-time processing
+<libpython/temporal_framework.html>`. The usage is presented in the
+script described below.
 
 NDVI values range from +1.0 to -1.0. Areas of barren rock, sand, or
 snow usually show very low NDVI values (for example, 0.1 or
@@ -24,7 +24,7 @@ eliminate small areas.
 Workflow
 --------
 
-#. Set computation region based on modified input region (:grasscmd:`g.region`)
+#. Set computational region based on modified input region (:grasscmd:`g.region`)
 #. Compute NDVI values (:grasscmd:`i.vi`)
 #. Reclassify NDVI values into classes (:grasscmd:`r.recode`)
 #. Remove small areas (join them with adjacent areas by
@@ -54,10 +54,10 @@ Example of `reclass.txt <../_static/scripts/reclass.txt>`__ and
 .. figure:: ../images/units/08/ndvi_mapswipe.png
    :class: middle
            
-   Comparission of NDVI class before and after postprocessing
-   (removing small areas) done by :grasscmd:`g.gui.mapswipe`.
+   Comparisson of NDVI classes before and after postprocessing
+   (removing small areas) using :grasscmd:`g.gui.mapswipe`.
    
-At the end NDVI statistics for each class will be computed by
+At the end, NDVI statistics for each class will be computed with
 :grasscmd:`r.report`.
 
 UI
@@ -71,7 +71,7 @@ Let's define input and output parameters of the script:
   :lcode:`23`)
 * :param:`clouds` - Name of the input mask (region+clouds) space time raster dataset
   (line :lcode:`27`)
-* :param:`clouds` - Name for output stats file (line :lcode:`30`)
+* :param:`output` - Name for the output stats file (line :lcode:`30`)
 * :param:`basename` - Basename for output raster maps (line
   :lcode:`33`)
 * :param:`threshold` - Threshold for removing small areas (line
@@ -94,7 +94,7 @@ List on functions used from :grasscmd2:`GRASS GIS Temporal Framework
 * raster maps registered in reference dataset (b4) are listed on line
   :lcode:`128` by :grasscmd2:`get_registered_maps
   <libpython/temporal.html#temporal.abstract_space_time_dataset.AbstractSpaceTimeDataset.get_registered_maps>`
-* related raster maps in two other datasets (b8, cl) are searched on
+* related raster maps in two other datasets (b8, cl) are searched for on
   lines :lcode:`131-134` by :grasscmd2:`get_registered_maps
   <libpython/temporal.html#temporal.abstract_space_time_dataset.AbstractSpaceTimeDataset.get_registered_maps>`
   with ``where`` parameter
