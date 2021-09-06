@@ -17,7 +17,7 @@ Research Laboratories (USA-CERL, 1982-1995, see history of GRASS
 tool for land management and environmental planning by the military,
 GRASS GIS has evolved into a powerful utility with a wide range of
 applications in many different areas of applications and scientific
-research. (source: https://grass.osgeo.org)
+research (source: https://grass.osgeo.org).
 
 .. youtube:: U3Hf0qI4JLc
 
@@ -42,7 +42,7 @@ In a nutshell
 **Disadvantages** (turning out to be advantages in some cases):
 
 * open-source ;-)
-* complicated for newcomers
+* complicated for newcomers (we solved it in GRASS 8 ;-))
 * native data format (requires importing data, be aware of the possibility
   of linking external formats)
 * vector topology (confusing for GIS beginners, sometimes tricky to
@@ -107,8 +107,8 @@ Useful links
 * `GRASS GIS wiki <https://grasswiki.osgeo.org>`__: a lot of information, with examples
   and tutorials
 * `GRASS user mailing list <http://lists.osgeo.org/mailman/listinfo/grass-user>`__:
-  the simpler and most used way to ask support
+  the simpler and most used way to ask for support
 * `GRASS on stackexchange <https://gis.stackexchange.com/questions/tagged/grass>`__:
-  another way to ask support
+  another way to ask for support
 * `GRASS GIS tutorials <https://grass.osgeo.org/documentation/tutorials/>`__:
   an incomplete list of tutorials related to GRASS GIS
