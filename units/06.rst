@@ -1,12 +1,12 @@
 [Part 2] Accessing Sentinel EO data
 ===================================
 
-There are plenty of libraries or tools which allows downloading
+There are plenty of libraries or tools which allow downloading
 Sentinel products from `Copernicus Open Access Hub
 <https://scihub.copernicus.eu/>`__.
 
-For GRASS GIS there is available :grasscmdaddons:`i.sentinel` addon
-extension. It consists of fours GRASS modules:
+For GRASS GIS there is the :grasscmdaddons:`i.sentinel` toolbox.
+It consists of six GRASS addon modules:
 
 * :grasscmdaddons:`i.sentinel.download`
 * :grasscmdaddons:`i.sentinel.import`
@@ -15,7 +15,7 @@ extension. It consists of fours GRASS modules:
 * :grasscmdaddons:`i.sentinel.coverage`
 * :grasscmdaddons:`i.sentinel.parallel.download`
   
-Addons modules can easily be installed by :grasscmd:`g.extension`
+Addons modules can be easily installed via :grasscmd:`g.extension`
 (:menuselection:`Settings --> Addons extensions --> Install extension
 from addons`).
 
@@ -52,18 +52,18 @@ Let's download suitable Sentinel products for our area of interest
 
 `Sentinel-2 L2A products
 <https://www.sentinel-hub.com/blog/sentinel-2-l2a-products-available-sentinel-hub>`__
-will be used to avoid the need for computing atmospheric corrections. Let's
-search for the latest available product by
-:grasscmd:`i.sentinel.download`. By the :param:`-l` flag, the result will just
+will be used to avoid computing atmospheric corrections. Let's
+search for the latest available product by means of
+:grasscmd:`i.sentinel.download`. Setting the :param:`-l` flag, the result will only
 be printed. The download procedure will be performed later. In order to
-search and download Sentinel products, you have to create a user
-account in Copernicus Open Access Hub, see the manual page of
+search and download Sentinel products from the Copernicus Open Access Hub, 
+you have to create an account first. See the manual page of
 :grasscmd:`i.sentinel.download` module for details. Create a new text
 file :file:`sentinel.txt` containing two lines (username and
 password).
 
 .. note::
-   To get username and password you need to register to the 
+   To get username and password you need to register at the 
    `Copernicus Open Access Hub <https://scihub.copernicus.eu/>`__,
    see `Register new account <https://scihub.copernicus.eu/dhus/#/self-registration>`__
    page for signing up.
@@ -80,10 +80,10 @@ password).
    dc2fcffa-da81-4bfe-bb99-88cc8dde1ea7 ... 2021-08-03T09:06:01Z  1% S2MSI2A
    ...
 
-By default the module returns products for last 60 days. Let's change
-search period by :param:`start` and :param:`end` options. We will also
-limit products by :param:`clouds` coverage percentage threshold. Sort
-product by sort ingestion date.
+By default the module returns products for the last 60 days. Let's change
+the search period setting :param:`start` and :param:`end` options. We will also
+limit products by :param:`clouds` coverage percentage threshold and :param:`sort`
+products by ingestion date.
        
 .. code-block:: bash
                 
@@ -98,11 +98,11 @@ product by sort ingestion date.
    431da3a0-56d2-452c-bb0f-8d05b55969a9 ... 2021-05-10T09:05:49Z  1% S2MSI2A
    ...
    
-.. tip:: If more products have been found, you can limit the amount by
+.. tip:: If more products have been found, you can limit the amount with
    the :param:`limit` option.
 
-Let's download desired product(s). Just remove the :param:`-l` flag and
-add the :param:`output` option in order to define path to the output directory
+Let's download the desired product(s). Just remove the :param:`-l` flag and
+add the :param:`output` option in order to define the path to the output directory
 where data should be saved.
 
 .. code-block:: bash
@@ -117,8 +117,8 @@ Import data
 .. _sentinel-import:
 
 Before importing or linking Sentinel data try to print a list of
-filtered raster files including projection match (second column 1 for
-match otherwise 0). If CRS of input data differs from the current location
+filtered raster files including projection match (second column, 1 for
+match otherwise 0). If the CRS of input data differs from the current location
 consider reprojection (:param:`-r`) or creating a new location for
 import.
 
@@ -129,7 +129,7 @@ import.
 
    New location *odse_sentinel_2021*.
 
-Data will be imported into the new location by
+Data will be imported into the new location by means of the
 :grasscmdaddons:`i.sentinel.import` tool. The command will import
 **all** Sentinel bands from :param:`input` directory
 recursively. Before importing data let's check content of the input
@@ -146,8 +146,8 @@ directory by :param:`-p` flag.
    .../R20m/T34SGH_20210828T090549_B8A_20m.jp2 0 (EPSG: 32634)
    ...
       
-In example below import procedure will be limited to 4th and 8th bands
-in 20m by :param:`pattern` option.
+In the example below, the import procedure will be limited to the 4th and 
+8th bands in 20m spatial resolution by :param:`pattern` option.
 
 .. code-block:: bash
  
@@ -162,9 +162,11 @@ in 20m by :param:`pattern` option.
    .../R20m/T34SGH_20210729T090559_B04_20m.jp2 0 (EPSG: 32634)
    .../R20m/T34SGH_20210729T090559_B8A_20m.jp2 0 (EPSG: 32634)
 
-By default input data are imported into GRASS data format,
-alternatively data can be linked if :param:`-l` is given. It is also
-useful to import cloud mask vector features by :param:`-c` flag. We also use :param:`register_output` option to produce a timestamp plain text file which will be used in :doc:`07`.
+By default, input data are imported into GRASS data format.
+Alternatively, data can be linked if :param:`-l` is given. It is also
+useful to import cloud mask vector features by :param:`-c` flag. We also use 
+:param:`register_output` option to produce a timestamp plain text file 
+which will be used in :doc:`07`.
 
 .. code-block:: bash
 
@@ -179,14 +181,14 @@ location to the current one (see :ref:`[Part 1] Data Management
    :class: large
            
    Visualization of 4th band. :ref:`Color table <color-table>` set to
-   ``grey.eq`` (don't forget to set up computational 
+   ``grey.eq`` (don't forget to set up the computational region!)
    
 Computing NDVI
 --------------
 
 To compute :wikipedia:`NDVI`, the red (VIS) and near-infrared (NIR)
-channels are required. In the case of Sentinel-2, it refers to the 4th and
-8th band.
+channels are required. In the case of Sentinel-2, these are the 4th and
+8th band, respectively.
 
 .. math::
         
@@ -199,16 +201,16 @@ Sentinel scene.
 
    g.region raster=T34SGH_20210624T090601_B04_20m
 
-NDVI can be computed by :grasscmd:`i.vi` tool which allows computing
+NDVI can be computed via the :grasscmd:`i.vi` tool which allows computing
 various vegetation indices.
 
 .. code-block:: bash
 
    i.vi red=T34SGH_20210624T090601_B04_20m output=ndvi viname=ndvi nir=T34SGH_20210624T090601_B8A_20m
 
-Let's mask cloudy areas by a mask created by
-:grasscmdaddons:`i.sentinel.import`. Note that masking as other raster
-processing is performed only within the current computation region,
+Let's mask cloudy areas with a mask created by
+:grasscmdaddons:`i.sentinel.import`. Note that masking, as other raster
+processing, is performed only within the current computational region,
 see :doc:`04`.
 
 ..
@@ -223,4 +225,4 @@ see :doc:`04`.
 .. figure:: ../images/units/06/ndvi-legend.png
    :class: middle
            
-   Final NDVI product with cloud mask applied with a legend.
+   Final NDVI product with cloud mask applied and a legend.
