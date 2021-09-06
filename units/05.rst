@@ -147,3 +147,5 @@ Example of Python script
    slope_aoi.py tile_id=5606 elevation=dtm
    
 .. todo:: write script
+
+.. todo:: explain how to run the script

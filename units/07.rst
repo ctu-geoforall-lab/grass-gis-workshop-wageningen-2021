@@ -109,16 +109,24 @@ When computation is finished *ndvi* color table can be by
 
    t.rast.colors input=ndvi color=ndvi
 
-..
-   .. figure:: ../images/units/07/simple-animation.gif
-      :class: middle
+.. figure:: ../images/units/07/ndvi_1.png
+   :class: large
 
-      Simple NDVI animation (no clouds mask applied) created by
-      :grasscmd:`g.gui.animation`.
+   Filtering produced NDVI products in :item:`Data` tab.
+   
+.. figure:: ../images/units/07/simple-animation.gif
+   :class: middle
 
-.. note:: Load data as multiple raster maps instead of space time
-          dataset. There is problem with sampling related to trick
-          with endtime mentioned above.
+   Simple NDVI animation (no clouds mask applied) created by
+   :grasscmd:`g.gui.animation`.
+
+.. note:: Load data into animation tool as **multiple raster maps**
+          instead of space time dataset. Otherwise the tool freeze due
+          to sampling dataset. The problem is is related to
+          `i.sentinel.import workaround
+          <https://github.com/OSGeo/grass-addons/pull/607>`__ for
+          GRASS `issue 1843
+          <https://github.com/OSGeo/grass/issues/1843>`__.
 
 Cloud mask
 ^^^^^^^^^^
@@ -142,28 +150,42 @@ Sample script to download: `sentinel-cloud-mask.py
 	     
 .. code-block:: bash
 		
-   sentinel-cloud-mask.py map=jena_boundary output=cloud-timestamps.txt
+   sentinel-cloud-mask.py map=tile_5606_1km output=cloud-timestamps.txt
 
 Now we can create a new space time dataset with raster cloud masks
 registered.
 
 .. code-block:: bash
 
-   t.create output=clouds title="Sentinel L2A 2019 (clouds)" desc="Jena region"
+   t.create output=clouds title="Cloud mask Sentinel L2A 2021" desc="Tile 5606"
    t.register input=clouds file=cloud-timestamps.txt
 
-And apply modified expression for map algebra.
+Let's check maps registered in new space-time dataset.
 
 .. code-block:: bash
 
-   t.rast.mapcalc input=b4,b8,clouds output=ndvi \
-   expression="ndvi = if(isnull(clouds), null(), float(b8 - b4) / ( b8 + b4 ))" \
-   basename=ndvi nproc=3
+   t.rast.list clouds
 
-   t.rast.colors in=ndvi color=ndvi
+::
 
-..
-   .. figure:: ../images/units/07/simple-animation-clouds.gif
-      :class: middle
+   name|mapset|start_time|end_time
+   T34SGH_20210624T090601_MSK_CLOUDS_tile_5606_1km|PERMANENT|2021-06-24 09:19:52.607078|None
+   T34SGH_20210729T090559_MSK_CLOUDS_tile_5606_1km|PERMANENT|2021-07-29 09:19:53.186492|None
+   T34SGH_20210828T090549_MSK_CLOUDS_tile_5606_1km|PERMANENT|2021-08-28 09:19:49.080855|None
+                
+And apply modified expression for map algebra and set *ndvi* color
+table.
 
-      Simple NDVI animation with clouds mask applied.
+.. code-block:: bash
+
+   t.rast.mapcalc input=b4,b8,clouds output=ndvi_masked \
+   expression="ndvi_masked = if(isnull(clouds), null(), float(b8 - b4) / ( b8 + b4 ))" \
+   basename=ndvi_masked nproc=3
+
+   t.rast.colors input=ndvi_masked color=ndvi
+
+.. figure:: ../images/units/07/simple-animation-clouds.gif
+   :class: middle
+                    
+   Simple NDVI animation with clouds mask applied. Computation limited
+   to AOI only.
