@@ -5,20 +5,20 @@ GRASS GIS offers specialized tools for spatio-temporal data
 processing, see :grasscmd:`GRASS documentation <temporalintro>` for
 details.
 
-GRASS introduces three special datatypes that are designed to handle
-time series data:
+GRASS introduces three special data types that are designed to handle
+time-series data:
 
-* *Space time raster datasets* (``strds``) for managing raster map
+* *Space-time raster datasets* (``strds``) for managing raster map
   time series.
-* *Space time 3D raster datasets* (``str3ds``) for managing 3D raster
+* *Space-time 3D raster datasets* (``str3ds``) for managing 3D raster
   map time series.
-* *Space time vector datasets* (``stvds``) for managing vector map time
+* *Space-time vector datasets* (``stvds``) for managing vector map time
   series.
 
 Create space-time dataset
 -------------------------
 
-At this moment a new space time dataset can be created by
+At this moment a new space-time dataset can be created by
 :grasscmd:`t.create` and all imported Sentinel bands registered by
 :grasscmd:`t.register`.
 
@@ -123,8 +123,8 @@ When computation is finished *ndvi* color table can be by
    :grasscmd:`g.gui.animation`.
 
 .. note:: Load data into animation tool as **multiple raster maps**
-          instead of space time dataset. Otherwise the tool freeze due
-          to sampling dataset. The problem is is related to
+          instead of a space-time dataset. Otherwise the tool will freeze due
+          to sampling. The problem is related to
           `i.sentinel.import workaround
           <https://github.com/OSGeo/grass-addons/pull/607>`__ for
           GRASS `issue 1843
@@ -133,13 +133,13 @@ When computation is finished *ndvi* color table can be by
 Cloud mask
 ^^^^^^^^^^
 
-Let's apply cloud mask on space-time dataset. At first we will create
+Let's apply cloud mask on space-time dataset. At first, we will create
 a new space-time dataset containing computed raster masks. A sample
 Python script has been designed for this purpose below. Such mask can
 be created by :grasscmd:`r.mask`, see line :lcode:`30`. But in this
-case a mask should be kept for further usage. Note that
-:grasscmd:`r.mask` module produces normal raster map with unique name
-*MASK*. To disable mask it is enough to rename *MASK* map by
+case, the mask should be kept for further usage. Note that
+:grasscmd:`r.mask` module produces a normal raster map with the unique name
+*MASK*. To disable a mask, it is enough to rename the *MASK* map by
 :grasscmd:`g.rename`, see line :lcode:`43`.
 
 .. literalinclude:: ../_static/scripts/sentinel-cloud-mask.py
@@ -154,7 +154,7 @@ Sample script to download: `sentinel-cloud-mask.py
 		
    sentinel-cloud-mask.py map=tile_5606_1km output=cloud-timestamps.txt
 
-Now we can create a new space time dataset with raster cloud masks
+Now we can create a new space-time dataset with raster cloud masks
 registered.
 
 .. code-block:: bash
@@ -162,7 +162,7 @@ registered.
    t.create output=clouds title="Cloud mask Sentinel L2A 2021" desc="Tile 5606"
    t.register input=clouds file=cloud-timestamps.txt
 
-Let's check maps registered in new space-time dataset.
+Let's check maps registered in the new space-time dataset.
 
 .. code-block:: bash
 
@@ -189,5 +189,5 @@ table.
 .. figure:: ../images/units/07/simple-animation-clouds.gif
    :class: middle
                     
-   Simple NDVI animation with clouds mask applied. Computation limited
+   Simple NDVI animation with clouds mask applied. Computation is limited
    to AOI only.
