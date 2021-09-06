@@ -53,10 +53,10 @@ def main():
             Module('r.mask', vector=mask_vect, overwrite=True)
             Module('g.remove', flags='f', type='vector', name=mask_vect)
             Module('g.rename', raster=['MASK', mask_vect])
-            fd.write("{0}|{1}|{2}{3}".format(
+            fd.write("{0}|{1}|{2}".format(
                 mask_vect,
                 d.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                dd.strftime('%Y-%m-%d %H:%M:%S.%f'),
+#                dd.strftime('%Y-%m-%d %H:%M:%S.%f'),
                 os.linesep))
         
     return 0

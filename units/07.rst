@@ -24,15 +24,15 @@ At this moment a new space-time dataset can be created by
 
 .. code-block:: bash
 
-   t.create output=sen_tile_5606 title="Sentinel L2A 2021" desc="Tile 5606"
-   t.register input=sen_tile_5606 file=/home/user/sentinel-timestamps.txt
+   t.create output=s2_tile_5606 title="Sentinel L2A 2021" desc="Tile 5606"
+   t.register input=s2_tile_5606 file=/home/odse/sentinel-timestamps.txt
 
 Let's check basic metadata (:grasscmd:`t.info`) and list of registered
 maps (:grasscmd:`t.rast.list`).
 
 .. code-block:: bash
 
-   t.info input=sen_tile_5606
+   t.info input=s2_tile_5606
 
 ::
 
@@ -44,7 +44,7 @@ maps (:grasscmd:`t.rast.list`).
 
 .. code-block:: bash
 
-   t.rast.list input=sen_tile_5606
+   t.rast.list input=s2_tile_5606
 
 ::
 
@@ -61,21 +61,21 @@ NDVI ST computation
 
 For NDVI computation 4th and 8th bands are required (:doc:`06`). Map
 algebra is performed in the case of spatio-temporal data by
-:grasscmd:`t.rast.mapcalc` which requires data separated into
+:grasscmd:`t.rast.algebra` which requires data separated into
 spatio-temporal datasets (see example in :doc:`22`). Such datasets can
 be prepared by :grasscmd:`t.rast.extract`.
 
 .. code-block:: bash
 
-   t.rast.extract input=sen_tile_5606 where="name like '%B04%'" output=b4
-   t.rast.extract input=sen_tile_5606 where="name like '%B8A%'" output=b8
+   t.rast.extract input=s2_tile_5606 where="name like '%B04%'" output=s2_b4
+   t.rast.extract input=s2_tile_5606 where="name like '%B8A%'" output=s2_b8
 
 Let's check content of the new datasets by :grasscmd:`t.rast.list`.
 
 .. code-block:: bash
 
-   t.rast.list input=b4
-   t.rast.list input=b8
+   t.rast.list input=s2_b4
+   t.rast.list input=s2_b8
 
 ..
    Set computational region by :grasscmd:`g.region` including mask for
@@ -91,18 +91,17 @@ performed in parallel (:param:`nproc`).
           
 .. code-block:: bash
 
-   t.rast.mapcalc input=b4,b8 output=ndvi expression="float(b8 - b4) / ( b8 + b4 )" \
-   basename=ndvi nproc=3
+   t.rast.algebra basename=ndvi expression="ndvi = float(s2_b8 - s2_b4) / ( s2_b8 + s2_b4 )" 
 
 .. tip:: GRASS 8 adds support for band references (see
    :grasscmd:`g.bands` for details). NDVI can be computed directly
-   using :map:`sen_tile_5606` space-time dataset. No need for creating
+   using :map:`s2_tile_5606` space-time dataset. No need for creating
    extraction as described above.
 
    .. code-block:: bash
                    
-      t.rast.mapcalc inputs=sen_tile_5606.S2_8,sen_tile_5606.S2_4 output=ndvi basename=ndvi \
-      expression="float(sen_tile_5606.S2_8 - sen_tile_5606.S2_4) / (sen_tile_5606.S2_8 + sen_tile_5606.S2_4)"
+      t.rast.mapcalc inputs=s2_tile_5606.S2_8A,s2_tile_5606.S2_4 output=ndvi basename=ndvi \
+      expression="float(s2_tile_5606.S2_8A - s2_tile_5606.S2_4) / (s2_tile_5606.S2_8A + s2_tile_5606.S2_4)"
 
 When computation is finished *ndvi* color table can be by
 :grasscmd:`t.rast.colors`.
@@ -152,7 +151,7 @@ Sample script to download: `sentinel-cloud-mask.py
 	     
 .. code-block:: bash
 		
-   sentinel-cloud-mask.py map=tile_5606_1km output=cloud-timestamps.txt
+   sentinel-cloud-mask.py map=tile_5606_1km input=s2_b4 output=cloud-timestamps.txt
 
 Now we can create a new space-time dataset with raster cloud masks
 registered.
@@ -180,9 +179,8 @@ table.
 
 .. code-block:: bash
 
-   t.rast.mapcalc input=b4,b8,clouds output=ndvi_masked \
-   expression="ndvi_masked = if(isnull(clouds), null(), float(b8 - b4) / ( b8 + b4 ))" \
-   basename=ndvi_masked nproc=3
+   t.rast.algebra basename=ndvi_masked_1 nprocs=3 \
+   expression="ndvi_masked_1 = if(isnull(clouds), null(), float(s2_b8 - s2_b4) / ( s2_b8 + s2_b4 ))"
 
    t.rast.colors input=ndvi_masked color=ndvi
 
