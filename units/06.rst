@@ -15,7 +15,7 @@ extension. It consists of fours GRASS modules:
 * :grasscmdaddons:`i.sentinel.coverage`
 * :grasscmdaddons:`i.sentinel.parallel.download`
   
-Addons modules can easily installed by :grasscmd:`g.extension`
+Addons modules can easily be installed by :grasscmd:`g.extension`
 (:menuselection:`Settings --> Addons extensions --> Install extension
 from addons`).
 
@@ -31,8 +31,8 @@ Note that :grasscmdaddons:`i.sentinel.download` requires also
 `sentinelsat library <https://pypi.python.org/pypi/sentinelsat>`__ to
 be installed.
 
-.. note:: Sentinelsat library can easily installed from
-   :item:`Console` tab by entering command below.
+.. note:: Sentinelsat library can be easily installed from the
+   :item:`Console` tab by entering the command below.
    
    .. code-block:: bash
 	
@@ -41,23 +41,23 @@ be installed.
 Download data
 -------------
 
-.. important:: Pre-downloaded Sentinel scenes are available in `sample
+.. important:: Pre-downloaded Sentinel scenes are available in the `sample
    dataset
    <https://geo.fsv.cvut.cz/geoharmonizer/odse_workshop_2021/t34sgh_20_60m.zip>`__. Participants
    can continue with :ref:`importing sample data <sentinel-import>`.
 
 Let's download suitable Sentinel products for our area of interest
-(AOI) and perform NDVI calculation. AOI region is defined by
+(AOI) and perform the NDVI calculation. AOI region is defined by
 :map:`tile_5606_1km` created in :doc:`05`.
 
 `Sentinel-2 L2A products
 <https://www.sentinel-hub.com/blog/sentinel-2-l2a-products-available-sentinel-hub>`__
-will be used to avoid need of computing atmospheric corrections. Let's
-search for latest available product by
-:grasscmd:`i.sentinel.download`. By :param:`-l` flag, result will just
-printed. Download procedure will be performed later. In order to
+will be used to avoid the need for computing atmospheric corrections. Let's
+search for the latest available product by
+:grasscmd:`i.sentinel.download`. By the :param:`-l` flag, the result will just
+be printed. The download procedure will be performed later. In order to
 search and download Sentinel products, you have to create a user
-account in Copernicus Open Access Hub, see manual page of
+account in Copernicus Open Access Hub, see the manual page of
 :grasscmd:`i.sentinel.download` module for details. Create a new text
 file :file:`sentinel.txt` containing two lines (username and
 password).
@@ -98,11 +98,11 @@ product by sort ingestion date.
    431da3a0-56d2-452c-bb0f-8d05b55969a9 ... 2021-05-10T09:05:49Z  1% S2MSI2A
    ...
    
-.. tip:: If more products have been found you can limit search by
-   :param:`limit` option.
+.. tip:: If more products have been found, you can limit the amount by
+   the :param:`limit` option.
 
-Let's download desired product(s). Just remove :param:`-l` flag and
-add :param:`output` option in order to define path to output directory
+Let's download desired product(s). Just remove the :param:`-l` flag and
+add the :param:`output` option in order to define path to the output directory
 where data should be saved.
 
 .. code-block:: bash
@@ -116,9 +116,9 @@ Import data
 
 .. _sentinel-import:
 
-Before importing or linking Sentinel data try to print list of
+Before importing or linking Sentinel data try to print a list of
 filtered raster files including projection match (second column 1 for
-match otherwise 0). If CRS of input data differs from current location
+match otherwise 0). If CRS of input data differs from the current location
 consider reprojection (:param:`-r`) or creating a new location for
 import.
 
@@ -185,14 +185,14 @@ Computing NDVI
 --------------
 
 To compute :wikipedia:`NDVI`, the red (VIS) and near-infrared (NIR)
-channels are required. In the case of Sentinel-2, it refers to 4th and
+channels are required. In the case of Sentinel-2, it refers to the 4th and
 8th band.
 
 .. math::
         
    NDVI = (NIR - VIS) / (NIR  + VIS)
 
-Before computing let's set up computational region based on whole
+Before computing, let's set up the computational region based on the whole
 Sentinel scene.
 
 .. code-block:: bash
