@@ -130,22 +130,36 @@ Modeler, a chain of tools (ie. GRASS modules) can be wrapped
 into one process (a model). A model can be executed repeatedly with
 slightly different inputs or parameters.
 
-.. todo:: model
+.. figure:: ../images/units/05/model.png
+   :class: middle
+           
+   Screenshot of how such model could look like.
 
-v.extract input=odse_tiles output=tile where="tile_id = 5606"
-g.region vector=tile align=dtm
-r.slope.aspect input=dtm slope=slope_tile
-r.univar map=slope_tile
+The model can be downloaded as a `.gxm` file here: `slope.gxm
+<../_static/models/slope.gxm>`__
+
+To open such model in the GRASS GIS modeler, run the following:
+
+.. code-block:: bash
+
+   g.gui.gmodeler path_to_your_gxm_file
+
 
 Example of Python script
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+A Python script corresponding to the model described above could look like this:
+
+.. literalinclude:: ../_static/scripts/slope.py
+   :language: python
+   :linenos:
+
+Sample script to download: `slope.py
+<../_static/scripts/slope.py>`__
+
+The script can then be used the same way as any other GRASS GIS module:
+	     
 .. code-block:: bash
+		
+   slope.py --help
 
-   slope_aoi.py tile_id=5606 elevation=dtm elevation_threshold=1000
-
-   slope_aoi.py tile_id=5606 elevation=dtm
-   
-.. todo:: write script
-
-.. todo:: explain how to run the script
