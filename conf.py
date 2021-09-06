@@ -10,7 +10,7 @@ from utils import get_month_year, get_year
 
 # General information about the project.
 project = u'ODSE GRASS GIS Workshop in Wageningen 2021'
-copyright = u'%d Martin Landa' % get_year()
+copyright = u'%d CTU GeoForAll Lab' % get_year()
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
