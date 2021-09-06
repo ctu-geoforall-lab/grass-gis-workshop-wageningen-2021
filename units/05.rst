@@ -2,8 +2,8 @@
 ==========================
 
 Raster data processing is always limited to the current
-:ref:`computational region <region>`. Let's demonstrate it on
-computing univariate statistics by :grasscmd:`r.univar` module.
+:ref:`computational region <region>`. Let's demonstrate it by 
+computing univariate statistics with :grasscmd:`r.univar` module.
 
 .. figure:: ../images/units/05/r-univar-menu.png
 
@@ -47,8 +47,8 @@ Computing DTM derivates
 -----------------------
 
 Let's set up the computational region back to our :ref:`area of interest
-<aoi>`. Computation of slope or aspect from DTM is a well known
-"discipline" in GIS. This functionality is provided in GRASS GIS by
+<aoi>`. Computation of slope or aspect from DTM is a common task
+in GIS. This functionality is provided in GRASS GIS by the command 
 :grasscmd:`r.slope.aspect`. Besides slope or aspect, the tool can also
 compute curvatures and partial derivatives.
 
@@ -59,7 +59,7 @@ compute curvatures and partial derivatives.
 .. figure:: ../images/units/05/slope.png
    :class: middle
            
-   Slope computed from DTM in the current computational region. Simple
+   Slope computed from DTM in the current computational region. A simple
    legend can be added to map display by |grass-overlay-add| :sup:`Add
    map elements` (*Add raster legend*) from Map Display toolbar.
 
@@ -67,15 +67,14 @@ Working with a mask
 -------------------
 
 Raster mask can be created by :grasscmd:`r.mask`. Like other modules
-from ``r.*`` family, it operates in the current computational region.
+from the ``r.*`` family, it operates in the current computational region.
 
 Let's create a mask defined by a 10km buffer around highways. The highways
-data :file:`highways.gpkg` can be imported similarly as explained in
-:doc:`03`.
+data :file:`highways.gpkg` can be imported as explained in :doc:`03`.
 
-.. note:: CRS of highways (:epsg:`4326`) differs from location CRS
-   (:epsg:`3035`). It means that GRASS will perform reproject data
-   into location CRS.
+.. note:: CRS of highways (:epsg:`4326`) differs from the current location
+   CRS (:epsg:`3035`). It means that GRASS will perform reprojection of the
+   data into the current location CRS.
 
    .. figure:: ../images/units/05/re-project.png
            
@@ -91,7 +90,7 @@ data :file:`highways.gpkg` can be imported similarly as explained in
            
    Mask applied.
           
-.. note:: A mask can be removed by ``r.mask -r``.
+.. note:: A mask can be removed with ``r.mask -r``.
 
 Map algebra
 -----------
@@ -124,8 +123,8 @@ Automatization
 Graphical Modeler
 ~~~~~~~~~~~~~~~~~
 
-**Graphical Modeler** allows creating, editing, and managing complex
-models in an easy-to-use graphical user interface. Using Graphical
+The **Graphical Modeler** allows creating, editing, and managing complex
+models in an easy-to-use graphical user interface. Using the Graphical
 Modeler, a chain of tools (ie. GRASS modules) can be wrapped
 into one process (a model). A model can be executed repeatedly with
 slightly different inputs or parameters.
@@ -145,8 +144,8 @@ To open such model in the GRASS GIS modeler, run the following:
    g.gui.gmodeler path_to_your_gxm_file
 
 
-Example of Python script
-~~~~~~~~~~~~~~~~~~~~~~~~
+Example of a Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A Python script corresponding to the model described above could look like this:
 
@@ -157,7 +156,7 @@ A Python script corresponding to the model described above could look like this:
 Sample script to download: `slope.py
 <../_static/scripts/slope.py>`__
 
-The script can then be used the same way as any other GRASS GIS module:
+The script can then be used just like any other GRASS GIS module:
 	     
 .. code-block:: bash
 		
