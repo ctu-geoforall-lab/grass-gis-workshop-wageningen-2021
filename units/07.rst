@@ -121,14 +121,6 @@ When computation is finished *ndvi* color table can be by
    Simple NDVI animation (no clouds mask applied) created by
    :grasscmd:`g.gui.animation`.
 
-.. note:: Load data into animation tool as **multiple raster maps**
-          instead of a space-time dataset. Otherwise the tool will freeze due
-          to sampling. The problem is related to
-          `i.sentinel.import workaround
-          <https://github.com/OSGeo/grass-addons/pull/607>`__ for
-          GRASS `issue 1843
-          <https://github.com/OSGeo/grass/issues/1843>`__.
-
 Cloud mask
 ^^^^^^^^^^
 
